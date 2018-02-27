@@ -44,16 +44,17 @@ class panxel:
         # Plot pandas graph
 
         # Get option box both x, y
-        x = self.app.getOptionBox("X:")
-        y = self.app.getOptionBox("Y:")
+        self.x = self.app.getOptionBox("X:")
+        self.y = self.app.getOptionBox("Y:")
 
         # Create subset of data and sort
-        data_ss = self.data[[x, y]]
-        data = data_ss.sort_values([y], ascending=[False])
-
+        data_ss = self.data[[self.x, self.y]]
+        print(data_ss, "Data ss1")
+        data = data_ss.sort_values([self.y], ascending=[False])
+        print(data, "Data 1")
         # Create pivot table to plot
-        ddss = data.head(20).pivot_table(index=[x])
-        print(ddss)
+        ddss = data.nlargest(20,[self.y])
+        print(ddss, "Daya ss2")
 
         # Start LabelFrame to plot
         self.app.openLabelFrame("Plotting")
@@ -66,6 +67,9 @@ class panxel:
     def run(self):
         self.app.go()
         self.app.setLabelFrameHeight("Setting", 2)
+
+    # def grouppredict(self):
+
 
 
 if __name__ == '__main__':
