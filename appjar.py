@@ -6084,10 +6084,10 @@ class gui(object):
             self.fig = Figure(tight_layout=True)
             if width is not None and height is not None:
                 self.fig.set_size_inches(width,height,forward=True)
-            axes = self.fig.add_subplot(111)  ## here
+            self.axes = self.fig.add_subplot(111)  ## here
 
             # Basemap config
-            df.plot(kind="bar", ax=axes)
+            df.plot(kind="bar", ax=self.axes)
 
             canvas = FigureCanvasTkAgg(self.fig, self.getContainer())
             canvas._tkcanvas.config(background="#c0c0c0", borderwidth=0, highlightthickness=0)
@@ -6102,6 +6102,28 @@ class gui(object):
             self.__positionWidget(canvas.get_tk_widget(), row, column, colspan, rowspan)
             self.widgetManager.add(self.Widgets.Plot, title, canvas)
             return canvas, self.fig
+
+    def updatePandas(self, title, df, keepLabels=False):
+        # axes = self.widgetManager.get(self.Widgets.Plot, title).axes
+
+        if keepLabels:
+            xLab = self.axes.get_xlabel()
+            yLab = self.axes.get_ylabel()
+            pTitle = self.axes.get_title()
+            handles, legends = self.axes.get_legend_handles_labels()
+
+        # axes.clear()
+        self.axes.clear()
+        df.plot(kind="bar", ax=self.axes)
+
+        # if keepLabels:
+        #     axes.set_xlabel(xLab)
+        #     axes.set_ylabel(yLab)
+        #     axes.set_title(pTitle)
+        #     axes.legend(handles, legends)
+
+        self.refreshPlot(title)
+        # return axes
 
 #####################################
 # FUNCTION to manage Properties Widgets

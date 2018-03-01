@@ -28,6 +28,7 @@ class panxel:
         self.app.stopLabelFrame()
 
         self.file = ''
+        self.plot_count = False
 
     def select_file(self, btn=None):
         # Select File
@@ -46,6 +47,8 @@ class panxel:
         # Get option box both x, y
         x = self.app.getOptionBox("X:")
         y = self.app.getOptionBox("Y:")
+        print("X: ", x)
+        print("Y: ", y)
 
         # Create subset of data and sort
         data_ss = self.data[[x, y]]
@@ -57,11 +60,17 @@ class panxel:
 
         # Start LabelFrame to plot
         self.app.openLabelFrame("Plotting")
-        self.app.removeLabel('Graph')
-        self.app.addPandasplot("pd1", ddss, width=200)
-        self.app.stopLabelFrame()
-        plt.show()
-        print("Plot!")
+        if self.plot_count:
+            print("2 time")
+            self.app.updatePandas("pd1", ddss)
+        else:
+            self.app.removeLabel('Graph')
+            self.app.addPandasplot("pd1", ddss, width=200)
+            self.app.stopLabelFrame()
+            plt.show()
+            self.plot_count = True
+            print("1 time")
+            print("Plot!")
 
     def run(self):
         self.app.go()
