@@ -55,10 +55,15 @@ class panxel:
         ddss = data.head(20).pivot_table(index=[x])
         print(ddss)
 
+        #Tableau
+
         # Start LabelFrame to plot
         self.app.openLabelFrame("Plotting")
-        self.app.removeLabel('Graph')
-        self.app.addPandasplot("pd1", ddss, width=200)
+        # self.app.removeLabel('Graph')
+        try:
+            self.app.addPandasplot("pd1", ddss, width=200)
+        except:
+            self.app.updatePandas("pd1", ddss)
         self.app.stopLabelFrame()
         plt.show()
         print("Plot!")
