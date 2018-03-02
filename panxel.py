@@ -1,4 +1,6 @@
 import pandas as pd
+from pandas.api.types import is_string_dtype
+from pandas.api.types import is_numeric_dtype
 from appJar import *
 import warnings
 import matplotlib.pyplot as plt
@@ -26,7 +28,6 @@ class panxel:
         self.app.setSticky("ew")
         self.app.addLabel("Graph")
         self.app.stopLabelFrame()
-
         self.file = ''
 
     def select_file(self, btn=None):
@@ -36,8 +37,8 @@ class panxel:
             self.file = file
             data_file = "global.xlsx"
             self.data = pd.read_excel(data_file)
-            self.app.changeOptionBox("X:", self.data.keys())
-            self.app.changeOptionBox("Y:", self.data.keys())
+            self.grouppredict()
+
 
 
     def plot(self, btn=None):
@@ -46,6 +47,7 @@ class panxel:
         # Get option box both x, y
         self.x = self.app.getOptionBox("X:")
         self.y = self.app.getOptionBox("Y:")
+        # print(self.x,self.y)
 
         # Create subset of data and sort
         data_ss = self.data[[self.x, self.y]]
@@ -68,8 +70,13 @@ class panxel:
         self.app.go()
         self.app.setLabelFrameHeight("Setting", 2)
 
-    # def grouppredict(self):
-
+    def grouppredict(self):
+        if is_numeric_dtype(self.data.keys):
+            self.app.changeOptionBox("Y:", self.data.keys())
+        if is_string_dtype(self.data.keys):
+            self.app.changeOptionBox("X:", self.data.keys())
+        else:
+            pass
 
 
 if __name__ == '__main__':
