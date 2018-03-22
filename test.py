@@ -29,6 +29,9 @@ class panxel:
 
         self.file = ''
         self.plot_count = False
+        self.addOp = False
+        self.list_optionbox = []
+        self.current_row = 2
 
     def select_file(self, btn=None):
         # Select File
@@ -53,14 +56,69 @@ class panxel:
         print("X: ", xs)
         print("Y: ", ys)
 
-        # Create subset of data and sort
-        data_ss = self.data[xs+ys]
-        data = data_ss.sort_values(ys, ascending=[False])
+        if self.addOp:
+            select_stack = []
+            getall = self.app.getAllOptionBoxes()
+            for item in self.list_optionbox:
+                select_stack.append(getall[item])
+            print("ASD", select_stack)
+        else:
+            for item in xs:
+                self.app.addOptionBox("Select {}".format(item), self.data[item].unique(), row=self.current_row)
+                self.list_optionbox.append("Select {}".format(item))
+                self.current_row += 1
+                self.addOp = True
+            data_ss = self.data[xs + ys]
+            data = data_ss.sort_values(ys, ascending=[False])
+            ddss = data.head(20).pivot_table(index=xs)
+            self.__plot(ddss)
+
+        # if xs == ['Country']:
+        #     if self.addOp:
+        #         select = self.app.getOptionBox("Select s")
+        #         data_ss = self.data[xs+ys]
+        #         self.data_ss = data_ss.loc[data_ss[xs[0]] == select]
+        #         self.data_sorted = self.data_ss.sort_values(ys, ascending=[False])
+        #         ddss = self.data_sorted.head(20)
+        #         self.__plot(ddss)
+        #     else:
+        #         self.app.addOptionBox("Select s", self.data[xs[0]].unique(), row=2)
+        #         self.addOp = True
+        #         data_ss = self.data[xs + ys]
+        #         data = data_ss.sort_values(ys, ascending=[False])
+        #         ddss = data.head(20).pivot_table(index=xs)
+        #         self.__plot(ddss)
+        #
+        # # Create subset of data and sort
+        # else:
+        #     data_ss = self.data[xs + ys]
+        #     data = data_ss.sort_values(ys, ascending=[False])
+        #     ddss = data.head(20).pivot_table(index=xs)
+        #     self.__plot(ddss)
+
+
+
+
 
         # Create pivot table to plot
-        ddss = data.head(20).pivot_table(index=xs)
-        print(ddss)
 
+        # print(ddss)
+        #
+        # # Start LabelFrame to plot
+        # self.app.openLabelFrame("Plotting")
+        # if self.plot_count:
+        #     print("2 time")
+        #     self.app.updatePandas("pd1", ddss)
+        # else:
+        #     self.app.removeLabel('Graph')
+        #     self.app.addPandasplot("pd1", data_ss.head(), width=200)
+        #     self.app.stopLabelFrame()
+        #     plt.show()
+        #     self.plot_count = True
+        #     print("1 time")
+        #     print("Plot!")
+
+    def __plot(self, ddss):
         # Start LabelFrame to plot
         self.app.openLabelFrame("Plotting")
         if self.plot_count:
@@ -74,7 +132,6 @@ class panxel:
             self.plot_count = True
             print("1 time")
             print("Plot!")
-
     def run(self):
         self.app.go()
         self.app.setLabelFrameHeight("Setting", 2)
