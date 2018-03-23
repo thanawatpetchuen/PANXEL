@@ -47,16 +47,54 @@ class ListS(QtWidgets.QListWidget):
     #         print("ASDss")
     #         e.acccept()
 
+
+    def _addItem(self, name):
+        self.addItem(name)
+        print("ASd")
+
+
     def dropEvent(self, QDropEvent):
         # self.addItem(QDropEvent.mimeData())
-        mdd = QDropEvent.mimeData().formats()
+        mdd = QDropEvent.mimeData()
         print(mdd)
-        QDropEvent.acceptProposedAction()
 
-        byta = QDropEvent.mimeData().data('application/x-qabstractitemmodeldatalist')
-        datae = self.decode_data(byta)
+        if(QDropEvent.mimeData().hasFormat('application/x-qabstractitemmodeldatalist')):
+            QDropEvent.accept()
+            # QDropEvent.setDropAction(QtCore.Qt.MoveAction)
+            name = QDropEvent.mimeData().data('application/x-qabstractitemmodeldatalist')
+            # mm = QtCore.QTextCodec.availableCodecs(name)
 
-        print(datae)
+            print(type(name))
+            namees = name.data().decode('utf-8')
+            print(namees, "asdasd")
+            itemname = "".join(i for i in namees if i.isalpha() or i == '-' or i == ' ')
+            print(itemname)
+
+            self.addItem(itemname)
+            print(self.items())
+
+            # print(b'{}'.format(str(name)[1:]))
+            # items = QtWidgets.QListWidgetItem(name)
+            # self.addItem(items)
+
+
+
+        print(mdd.formats())
+        # print(QDropEvent.dropAction())
+        # self._addItem(QDropEvent.source().text())
+        # print(self.addItem("asd"))
+        # items = []
+        # for i in range(self.listWidget.count()):
+        #     items.append(self.listWidget.item(i))
+        # labels = [i.text() for i in items]
+        # print(labels)
+        # QDropEvent.accept()
+        # QDropEvent.acceptProposedAction()
+
+        # byta = QDropEvent.mimeData().data('application/x-qabstractitemmodeldatalist')
+        # datae = self.decode_data(byta)
+
+        # print(mdd)
         print("WA")
 
     def decode_data(self, bytearray):
@@ -112,17 +150,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setObjectName("pushButton_2")
 
         self.listWidget = ListS("listWidget", self.tab)
-        # self.listWidget = QtWidgets.QListWidget(self.tab)
-        # self.listWidget.setGeometry(QtCore.QRect(170, 20, 401, 31))
-        # self.listWidget.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        # self.listWidget.setAcceptDrops(True)
-        # self.listWidget.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
-        # self.listWidget.setDefaultDropAction(QtCore.Qt.MoveAction)
-        # self.listWidget.setAlternatingRowColors(True)
-        # self.listWidget.setFlow(QtWidgets.QListView.LeftToRight)
-        # self.listWidget.setViewMode(QtWidgets.QListView.ListMode)
-        # self.listWidget.setObjectName("listWidget")
-        # self.listWidget_2 = ListS("listWidger_2")
+
         self.listWidget_2 = QtWidgets.QListWidget(self.tab)
         self.listWidget_2.setGeometry(QtCore.QRect(0, 20, 161, 171))
         self.listWidget_2.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
