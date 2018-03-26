@@ -9,6 +9,8 @@ data = pd.read_excel(data_file)
 datak = data.keys()
 print(datak)
 
+print(data.Country.unique())
+
 data_ss = data[['Country', 'Category', 'Sales']]
 data_sss = data_ss.loc[data_ss['Country'] == "Italy"]
 data_cat = data_sss.loc[data_sss['Category'].isin(['Technology'])]
