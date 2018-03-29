@@ -11,12 +11,14 @@ l, = plt.plot(t,s)
 plt.axis([0, 10, -1, 1])
 
 axcolor = 'lightgoldenrodyellow'
-axpos = plt.axes([0.2, 0.1, 0.65, 0.03], axisbg=axcolor)
+axpos = plt.axes([0.2, 0.1, 0.55, 0.03], axisbg=axcolor)
 
 spos = Slider(axpos, 'Pos', 0.1, 90.0)
 
 def update(val):
+    print(val)
     pos = spos.val
+    print(pos)
     ax.axis([pos,pos+10,-1,1])
     fig.canvas.draw_idle()
 
