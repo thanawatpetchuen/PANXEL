@@ -23,15 +23,23 @@ pdf = data_sss.pivot_table(index=['Country', 'Category'], values=['Sales'], aggf
 datas = data_sss.sort_values(['Sales'], ascending=[False])
 ddss = data_sss.pivot_table(index=['Category'])
 
-print(data_ss)
+# print(data_ss)
 print(data_sss['State'].unique())
+
+
+
+# py = data.groupby(['Country', 'State']).size()
+# pyi = py.pivot_table(index=py, values=['Sales'])
+# py.plot.bar()
+# plt.show()
+
 # print(data_sss)
 # print(sum_cat)
 # print(data['Country'].unique())
 # print(pdf)
 
-pdf.plot.bar()
-plt.show()
+# pdf.plot.bar()
+# plt.show()
 
 # print((data[['Country']]))
 # for i in data[['Country']]:

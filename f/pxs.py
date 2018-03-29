@@ -75,10 +75,11 @@ class ListItem(QtWidgets.QListWidgetItem):
 
 
 class ListS(QtWidgets.QListWidget):
-    def __init__(self, title, parent, who, a, b, c, d):
+    def __init__(self, title, parent, widget, who, a, b, c, d):
         super().__init__(parent=parent)
         self.setAcceptDrops(True)
-
+        self.who = who
+        self.widget = widget
         # self.setGeometry(QtCore.QRect(170, 20, 401, 31))
         self.setGeometry(QtCore.QRect(a, b, c, d))
         self.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
@@ -173,18 +174,109 @@ class ListS(QtWidgets.QListWidget):
             # item.
             self.addItem(itemname)
 
-            # for item in self.getItem():
-            #     combobox = QtWidgets.QComboBox()
-            #     combobox.setObjectName("combobox>{}".format(item))
-            #     print("combobox>{}".format(item))
-            #     combobox.addItems(self.data[item].unique())
-            #
-            #     self.parent().parent().parent().verticalLayout.addWidget(combobox)
-            # self.parent().
-            print(self.parent().parent().parent().parent())
-            print(type(self.parent().parent()))
+            self.addCombobox()
+
+                # self.parent().
+            # self.widget.parentCall()
+            # print(type(self.parent().parent()))
+
+    def addCombobox(self, option=None):
+        if self.who == 'measurement':
+                pass
+        else:
+            if self.widget.verticalLayout.count() >= 1:
+                print("More than 1")
+                self.widget.clearLayout()
+                if option is not None:
+                    # On changed
+                    print("On changed")
+                    ordered_dict = self.orderData(option)
+                else:
+                    ordered_dict = self.orderData()
+                print(ordered_dict, "from More than 1")
+                for item in self.getItem():
+                    try:
+                        combobox = QtWidgets.QComboBox()
+                        combobox.setObjectName("combobox>{}".format(item))
+                        print("combobox>{}".format(item))
+                        combobox.addItem(item)
+                        combobox.addItems(ordered_dict[item])
+                        combobox.currentTextChanged.connect(self.on_combobox_changed)
+                        self.widget.verticalLayout.addWidget(combobox)
+                    except:
+                        combobox = QtWidgets.QComboBox()
+                        combobox.setObjectName("combobox>{}".format(item))
+                        print("combobox>{}".format(item))
+                        combobox.addItem(item)
+                        combobox.addItems(self.widget.data[item])
+                        combobox.currentTextChanged.connect(self.on_combobox_changed)
+                        self.widget.verticalLayout.addWidget(combobox)
+            else:
+                # First time
+                print("First time")
+                for item in self.getItem():
+                    combobox = QtWidgets.QComboBox()
+                    combobox.setObjectName("combobox>{}".format(item))
+                    print("combobox>{}".format(item))
+                    combobox.addItem(item)
+                    combobox.addItems(self.widget.data[item].unique())
+                    combobox.currentTextChanged.connect(self.on_combobox_changed)
+                    self.widget.verticalLayout.addWidget(combobox)
+                    print("add complete")
 
 
+    def on_combobox_changed(self, value):
+        print("Combobox changed", self.who, value)
+        self.widget.clearLayout()
+        self.addCombobox(value)
+
+    def checkDefault(self, item):
+        check = self.widget.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(item))
+        if check == item:
+            return True
+        else:
+            return False
+
+    def orderData(self, option=None):
+        print("Ordering Data")
+        currentData = self.getItem()
+        ordered = self.widget.data
+        ordered_dict = {}
+        i = 0
+        for item in currentData:
+            print(item, "iter from orderData")
+            try:
+                if option is not None:
+                    child = option
+                else:
+                    child = self.widget.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(item)).currentText()
+                print(child, item, "child from orderData")
+                if child == item:
+                    print("Child == Item")
+                    ordered_dict[item] = ordered[item].unique()
+                else:
+                    print("Child !!!!!==== Item")
+                    if i >= 1:
+                        pass
+                    else:
+                        # if option is not None:
+                        #     ordered = ordered[item].unique()
+                        # else:
+                        ordered = ordered.loc[self.widget.data[item] == child]
+                    # print(ordered, "--- ordered ")
+                    ordered_dict[item] = ordered[item].unique()
+                    i += 1
+            except:
+                print("Not have!")
+                ordered_dict[item] = ordered[item].unique()
+            # if self.checkDefault(item):
+            #     ordered_dict[item] = ordered[item].unique()
+            # else:
+
+
+        print("Going to return ordered_dict")
+        # print("ordered_dict: ", ordered_dict)
+        return ordered_dict
         # print(QDropEvent.dropAction())
         # self._addItem(QDropEvent.source().text())
         # print(self.addItem("asd"))
@@ -216,7 +308,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.clickOnMe)
 
-        self.listWidget = ListS("listWidget", self.tab, "dimension", 170, 20, 401, 31)
+        self.listWidget = ListS("listWidget", self.tab, self, "dimension", 170, 20, 401, 31)
 
         self.listWidget_2 = QtWidgets.QListWidget(self.tab)
         self.listWidget_2.setGeometry(QtCore.QRect(0, 20, 161, 171))
@@ -235,7 +327,7 @@ class Ui_MainWindow(object):
         #     items = QtWidgets.QListWidgetItem(item)
         #     self.listWidget_3.addItem(items)
 
-        self.listWidget_4 = ListS("listWidget", self.tab, "measurement", 170, 60, 401, 31)
+        self.listWidget_4 = ListS("listWidget", self.tab, self, "measurement", 170, 60, 401, 31)
 
         self.label = QtWidgets.QLabel(self.tab)
         self.label.setGeometry(QtCore.QRect(0, 0, 161, 20))
@@ -314,6 +406,9 @@ class Ui_MainWindow(object):
         self.menuOption.addSeparator()
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menuOption.menuAction())
+        # QtWidgets.QShortcut()
+        self.shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+O"), self.tab)
+        self.shortcut.activated.connect(self.openFile)
 
         self.time_count = False
 
@@ -321,8 +416,11 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def parentCall(self):
-        print("Call by Child")
+    def clearLayout(self, option=None):
+        for i in reversed(range(self.verticalLayout.count())):
+            self.verticalLayout.itemAt(i).widget().deleteLater()
+        # def orderData(self, data):
+
 
     def eventFilter(self, source, event):
         if(event.type() == QtCore.QEvent.ContextMenu and
@@ -373,7 +471,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
         self.menu.setTitle(_translate("MainWindow", "File"))
         self.menuOption.setTitle(_translate("MainWindow", "Option"))
-        self.actionOpen.setText(_translate("MainWindow", "Open"))
+        self.actionOpen.setText(_translate("MainWindow", "Open      [Ctrl+O]"))
         self.actionOpen.triggered.connect(self.openFile)
 
     def clickOnMe(self):
