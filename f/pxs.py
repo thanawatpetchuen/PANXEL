@@ -13,6 +13,9 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from PandasModel import PandasModel
+import hashlib
+import time
 
 data_file = "global.xlsx"
 # data = pd.read_excel(data_file)
@@ -255,12 +258,15 @@ class ListS(QtWidgets.QListWidget):
     #     for item in self.
     #     self.widget.tab.findChild(QtWidgets.Q)
 
+
+
     def checkDefault(self, item):
         check = self.widget.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(item))
         if check == item:
             return True
         else:
             return False
+
 
     def orderData(self, option=None):
         print("Ordering Data")
@@ -412,6 +418,9 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
+        self.tableView = QtWidgets.QTableView(self.tab_2)
+        self.tableView.setGeometry(QtCore.QRect(0, 0, 765, 475))
+        self.tableView.setObjectName("tableView")
         self.tabWidget.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -446,6 +455,10 @@ class Ui_MainWindow(object):
             self.verticalLayout.itemAt(i).widget().deleteLater()
         # def orderData(self, data):
 
+    def setTab2(self):
+        model = PandasModel(self.data)
+        print(model)
+        self.tableView.setModel(model)
 
     def eventFilter(self, source, event):
         if(event.type() == QtCore.QEvent.ContextMenu and
@@ -458,32 +471,76 @@ class Ui_MainWindow(object):
             return True
         return self.eventFilter(source, event)
 
+    def add_listwidget2(self):
+        for i in self.dimlist:
+            print(i)
+            item = QtWidgets.QListWidgetItem(i)
+            self.listWidget_2.addItem(item)
+            print()
+            # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
+        for j in self.mealist:
+            item = QtWidgets.QListWidgetItem(j)
+            self.listWidget_3.addItem(item)
+            print("another1")
+
+    def add_listwidget(self):
+        for i in self.dimdata.keys():
+            print(i)
+            item = QtWidgets.QListWidgetItem(i)
+            self.listWidget_2.addItem(item)
+            print()
+            # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
+        for j in self.mesudata.keys():
+            item = QtWidgets.QListWidgetItem(j)
+            self.listWidget_3.addItem(item)
+            print("another1")
+
     def openFile(self):
         self.dr = str(QtWidgets.QFileDialog.getOpenFileName()[0])
+        # dim = []
+        # mea = []
+        # progessbar1 = Ui_Form(self)
         print(self.dr)
         # _translate = QtCore.QCoreApplication.translate
         _translate = QtCore.QCoreApplication.translate
         # file = self.app.openBox("Select file")
+        self.md5()
         if self.dr != '':
-            # self.file = file
-            # self.myLongTask.start()
-            data_file = self.dr
-            self.data = pd.read_excel(data_file)
-            # self.app.changeOptionBox("X:", self.data.keys())
-            print(self.data.keys())
-            self.dimdata = self.data.select_dtypes(include=['object'])
-            self.mesudata = self.data._get_numeric_data()
-            # print(self.mesudata.key())
-            for i in self.dimdata.keys():
-                print(i)
-                item = QtWidgets.QListWidgetItem(i)
-                self.listWidget_2.addItem(item)
-                print()
-                # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
-            for j in self.mesudata.keys():
-                item = QtWidgets.QListWidgetItem(j)
-                self.listWidget_3.addItem(item)
-                # print("another1")
+            if not self.checkmd5():
+                print('1st')
+                self.data_file = self.dr
+                self.data = pd.read_excel(data_file)
+                self.dimdata = self.data.select_dtypes(include=['object'])
+                self.mesudata = self.data._get_numeric_data()
+                self.add_listwidget()
+                self.setTab2()
+                self.write_datadim()
+                self.write_datamea()
+                self.write_json()
+            else:
+                print('2th')
+                self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+                self.datadimfile = '{}_datadim'.format(self.dr)
+                self.datameafile = '{}_datamea'.format(self.dr)
+                self.readtable = open(self.dataJsonfile, 'r+')
+                self.readdatadim = open(self.datadimfile, 'r+')
+                self.readdatamea = open(self.datameafile, 'r+')
+
+                rdimdata = self.readdatadim.readlines()
+                rmeadata = self.readdatamea.readlines()
+                self.dimlist = [x.strip() for x in rdimdata]
+                self.mealist = [x.strip() for x in rmeadata]
+                # print(mea)
+                # print(dim)
+                self.add_listwidget2()
+                self.readpd = pd.read_json(self.readtable, orient='records')
+                print(type(self.readpd))
+                # print(self.readpd.head())
+                model = PandasModel(self.readpd)
+                print(model)
+                self.tableView.setModel(model)
+        else:
+            pass
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PANXEL"))
@@ -498,6 +555,48 @@ class Ui_MainWindow(object):
         self.menuOption.setTitle(_translate("MainWindow", "Option"))
         self.actionOpen.setText(_translate("MainWindow", "Open      [Ctrl+O]"))
         self.actionOpen.triggered.connect(self.openFile)
+
+    def write_datadim(self):
+        self.datadimfile = '{}_datadim'.format(self.dr)
+        print(self.datadimfile)
+        dimfile = open(self.datadimfile, 'w+')
+        for i in self.dimdata:
+            dimfile.write(i + "\n")
+        dimfile.close()
+
+    def write_datamea(self):
+        self.datameafile = '{}_datamea'.format(self.dr)
+        meafile = open(self.datameafile, 'w+')
+        for j in self.mesudata:
+            meafile.write(j + "\n")
+        meafile.close()
+
+    def checkmd5(self):
+        self.rdb = open(self.file_database, 'r')
+        found = False
+        for line in self.rdb:
+            try:
+                if self.hashmd5 in line:
+                    return True
+            except AttributeError:
+                pass
+        return False
+
+    def write_json(self):
+        self.datajson = self.data.reset_index().to_json(orient='records')
+        # print(self.datajson)
+        self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+        jsonfile = open(self.dataJsonfile, 'w+')
+        jsonfile.write(self.datajson)
+        jsonfile.close()
+
+    def md5(self):
+        # Write new md5
+        print("Yes md5")
+        self.file_database = "plogs.txt"
+        self.database = open(self.file_database, 'a')
+        self.hashmd5 = hashlib.md5(open(self.dr, 'rb').read()).hexdigest()
+        self.database.write(self.hashmd5 + " " + time.strftime("%H:%M:%S") + " " + time.strftime("%d/%m/%Y") + "\n")
 
     def clickOnMe(self):
         data_file = "global.xlsx"
