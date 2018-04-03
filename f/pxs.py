@@ -72,7 +72,15 @@ class ListItem(QtWidgets.QListWidgetItem):
         # self.connect(self, QtCore.PYQT_SIGNAL("customContextMenuRequest(QPoint)"), self.showMenu)
         self.customContextMenuRequested.connect(self.showMenu)
 
+class ComboBox(QtWidgets.QComboBox):
+    def __init__(self):
+        super().__init__()
+        # self.currentTextChanged.connect(se)
+        print("Inited")
 
+    def currentTextChanged(self, p_str):
+        print("SDf")
+        print(p_str)
 
 class ListS(QtWidgets.QListWidget):
     def __init__(self, title, parent, widget, who, a, b, c, d):
@@ -116,6 +124,9 @@ class ListS(QtWidgets.QListWidget):
 
         self.dimension =[]
         self.measurement =[]
+
+        self.dimension_changed = []
+
 
     def currentItemChanged(self, QListWidgetItem, QListWidgetItem_1):
         print("ASD")
@@ -220,15 +231,29 @@ class ListS(QtWidgets.QListWidget):
                     print("combobox>{}".format(item))
                     combobox.addItem(item)
                     combobox.addItems(self.widget.data[item].unique())
+                    combobox.setObjectName("combobox>{}".format(item))
                     combobox.currentTextChanged.connect(self.on_combobox_changed)
+
+                    # combobox.currentTextChanged.connect(self.on_combobox_changed)
                     self.widget.verticalLayout.addWidget(combobox)
                     print("add complete")
 
-
     def on_combobox_changed(self, value):
+        # def whoCalls():
+        #     print(value)
+
         print("Combobox changed", self.who, value)
         self.widget.clearLayout()
+        self.dimension_changed.append(value)
+        print(self.dimension_changed)
+        # print(self.parent(.objectName())
         self.addCombobox(value)
+        # self.plot()
+        # return whoCalls()
+
+    # def plot(self):
+    #     for item in self.
+    #     self.widget.tab.findChild(QtWidgets.Q)
 
     def checkDefault(self, item):
         check = self.widget.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(item))
