@@ -14,21 +14,19 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-data_file = "global.xlsx"
-# data = pd.read_excel(data_file)
-#
 
 
 class MyMplCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
 
     def __init__(self, parent=None, width=5, height=4, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        self.axes = fig.add_subplot(111)
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = self.fig.add_subplot(111)
+        # fig.tight_layout()
 
         self.compute_initial_figure()
 
-        FigureCanvas.__init__(self, fig)
+        FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)
 
         FigureCanvas.setSizePolicy(self,
@@ -57,42 +55,39 @@ class MyDynamicMplCanvas(MyMplCanvas):
 
     def compute_initial_figure(self):
         pass
-        # self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
 
     def update_figure(self, df):
+        # Get DataFrame and plot
         self.axes.cla()
         df.plot(kind="bar", ax=self.axes)
+        self.fig.tight_layout()
         self.draw()
 
-class ListItem(QtWidgets.QListWidgetItem):
-    def __init__(self, title):
-        super().__init__(title)
-
-        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        # self.connect(self, QtCore.PYQT_SIGNAL("customContextMenuRequest(QPoint)"), self.showMenu)
-        self.customContextMenuRequested.connect(self.showMenu)
-
 class CheckComboBox(QtWidgets.QComboBox):
+    # Check-able Combo Box Re-implement
     def addItem(self, item):
+        # Add single check-able item
         super(CheckComboBox, self).addItem(item)
         item = self.model().item(self.count()-1,0)
         item.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
         item.setCheckState(QtCore.Qt.Unchecked)
-        # item.pressed.connect(self.handlePress)
 
     def addItems(self, items):
+        # Add multiple check-able item
         for item in items:
             super(CheckComboBox, self).addItem(item)
-            item = self.model().item(self.count()-1,0)
+            item = self.model().item(self.count()-1, 0)
             item.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
             item.setCheckState(QtCore.Qt.Unchecked)
             # item.pressed.connect(self.hand/lePress)
 
     def itemChecked(self, index):
+        # Check if item has checked at index
         item = self.model().item(index, 0)
         return item.checkState() == QtCore.Qt.Checked
 
     def getItemChecked(self):
+        # Get all items that checked
         self.checked =[]
         for i in range(self.count()):
             print(i)
@@ -106,12 +101,12 @@ class CheckComboBox(QtWidgets.QComboBox):
         print(index)
 
 class ListS(QtWidgets.QListWidget):
+    # QListWidget Re-implement for overwriting Drop Event
     def __init__(self, title, parent, widget, who, a, b, c, d):
         super().__init__(parent=parent)
         self.setAcceptDrops(True)
         self.who = who
         self.widget = widget
-        # self.setGeometry(QtCore.QRect(170, 20, 401, 31))
         self.setGeometry(QtCore.QRect(a, b, c, d))
         self.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
@@ -120,9 +115,8 @@ class ListS(QtWidgets.QListWidget):
         self.setFlow(QtWidgets.QListView.LeftToRight)
         self.setViewMode(QtWidgets.QListView.ListMode)
         self.itemDoubleClicked.connect(self.menuItemClicked)
-        # self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        # self.connect(self, QtCore.PYQT_SIGNAL("customContextMenuRequest(QPoint)"), self.showMenu)
-        # self.customContextMenuRequested.connect(self.showMenu)
+
+        # Color for item setting
         if who == 'dimension':
             self.setStyleSheet("QListWidget::item {"
          "border-style: outset;"
@@ -143,87 +137,57 @@ class ListS(QtWidgets.QListWidget):
       "QListWidget::item:selected {"
          "background-color: rgb(0, 85, 255)"
       "}")
+
         self.setObjectName(title)
 
-        self.dimension =[]
-        self.measurement =[]
-
+        # Private Variable
+        self.dimension = []
+        self.measurement = []
         self.dimension_changed = []
-
-
-    def currentItemChanged(self, QListWidgetItem, QListWidgetItem_1):
-        print("ASD")
-
-    # def dragEnterEvent(self, e):
-    #     if e.mimeData().hasFormat('text/plain'):
-    #         e.ignore()
-    #     else:
-    #         print("ASDss")
-    #         e.acccept()
-
 
     def _addItem(self, name):
         self.addItem(name)
         print("ASd")
 
-    # def showMenu(self, pos):
-    #     menu = QtWidgets.QMenu()
-    #     # clear_action = menu.addAction("Clear Selection")
-    #     filter_action = menu.addAction("Filter...")
-    #
-    #
-    #     action = menu.exec_(self.mapToGlobal(pos))
-    #     # action.connect(self.menuItemClicked)
-    #     # if action == clear_action:
-    #     #     self.pp()
-    #     #     self.combo.setCurrentIndex(0)
-    #     if action == filter_action:
-    #         print("Filter")
-
     def menuItemClicked(self):
         print("Asd")
 
     def getItem(self):
+        # Get all items in ListS
         items = []
         for item in range(self.count()):
             items.append(self.item(item).text())
         return items
 
     def dropEvent(self, QDropEvent):
-        # self.addItem(QDropEvent.mimeData())
+        # Overwriting old dropEvent for catch data before trigger functions
+
         mdd = QDropEvent.mimeData()
 
-        if(QDropEvent.mimeData().hasFormat('application/x-qabstractitemmodeldatalist')):
+        # application/x-qabstractitemmodeldatalist == QWidgets.QListWidgetItem
+        if QDropEvent.mimeData().hasFormat('application/x-qabstractitemmodeldatalist'):
+            # Accpet drop if item is QListWidgetItem
             QDropEvent.accept()
-            # QDropEvent.setDropAction(QtCore.Qt.MoveAction)
-            name = QDropEvent.mimeData().data('application/x-qabstractitemmodeldatalist')
-            # mm = QtCore.QTextCodec.availableCodecs(name)
 
+            name = QDropEvent.mimeData().data('application/x-qabstractitemmodeldatalist')
             namees = name.data().decode('utf-8')
             itemname = "".join(i for i in namees if i.isalpha() or i == '-' or i == ' ')
             print(itemname)
 
             self.dimension.append(itemname)
             item = QtWidgets.QListWidgetItem(itemname)
-            # item.
-
-            # if self.who == 'dimension':
-            #     self.widget.fil
 
             self.addItem(itemname)
 
             self.addCom()
             self.addCombobox()
 
-                # self.parent().
-            # self.widget.parentCall()
-            # print(type(self.parent().parent()))
-
     def addCom(self):
         combo_option = self.widget.getComboOptions()
         print(combo_option)
 
     def addCombobox(self, option=None):
+        # Add Combobox
         if self.who == 'measurement':
                 pass
         else:
@@ -273,6 +237,7 @@ class ListS(QtWidgets.QListWidget):
                     print("add complete")
 
     def showMenu(self, pos):
+        # Not currently use
         menu = QtWidgets.QMenu()
         clear_action = menu.addAction("Clear Filter")
         action = menu.exec_(self.mapToGlobal(pos))
@@ -281,11 +246,14 @@ class ListS(QtWidgets.QListWidget):
             self.addCombobox()
 
     def on_combobox_changed(self, value):
-        # def whoCalls():
-        #     print(value)
+        # If combobox changed do
+
+        # Refresh combo box option
         combo_option = self.widget.refresh()
         print(combo_option)
         print(combo_option.keys())
+
+        # Clear layout for re-adding combobox
         self.widget.clearLayout()
         for item in combo_option.keys():
 
@@ -296,20 +264,6 @@ class ListS(QtWidgets.QListWidget):
             combobox.addItems(combo_option[item])
             combobox.currentTextChanged.connect(self.on_combobox_changed)
             self.widget.verticalLayout.addWidget(combobox)
-        # child = self.widget.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(myDim[0])).currentText()
-        # print(child)
-
-        # print("Combobox changed", self.who, value)
-        # self.widget.clearLayout()
-        # self.dimension_changed.append(value)
-        # print(self.dimension_changed)
-        #
-        # self.addCombobox(value)
-        #
-
-    # def plot(self):
-    #     for item in self.
-    #     self.widget.tab.findChild(QtWidgets.Q)
 
     def checkDefault(self, item):
         check = self.widget.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(item))
@@ -319,6 +273,7 @@ class ListS(QtWidgets.QListWidget):
             return False
 
     def orderData(self, option=None):
+        # Ordering Data from use as combobox OPTION
         print("Ordering Data")
         currentData = self.getItem()
         ordered = self.widget.data
@@ -340,34 +295,16 @@ class ListS(QtWidgets.QListWidget):
                     if i >= 1:
                         pass
                     else:
-                        # if option is not None:
-                        #     ordered = ordered[item].unique()
-                        # else:
                         ordered = ordered.loc[self.widget.data[item] == child]
-                    # print(ordered, "--- ordered ")
                     ordered_dict[item] = ordered[item].unique()
                     i += 1
             except:
                 print("Not have!")
                 ordered_dict[item] = ordered[item].unique()
-            # if self.checkDefault(item):
-            #     ordered_dict[item] = ordered[item].unique()
-            # else:
-
 
         print("Going to return ordered_dict")
-        # print("ordered_dict: ", ordered_dict)
         return ordered_dict
-        # print(QDropEvent.dropAction())
-        # self._addItem(QDropEvent.source().text())
-        # print(self.addItem("asd"))
-        # items = []
-        # for i in range(self.listWidget.count()):
-        #     items.append(self.listWidget.item(i))
-        # labels = [i.text() for i in items]
-        # print(labels)
-        # QDropEvent.accept()
-        # QDropEvent.acceptProposedAction()
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -396,17 +333,11 @@ class Ui_MainWindow(object):
         self.listWidget_2.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.listWidget_2.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.listWidget_2.setObjectName("listWidget_2")
-        # for item in datak:
-        #     items = QtWidgets.QListWidgetItem(item)
-        #     self.listWidget_2.addItem(items)
         self.listWidget_3 = QtWidgets.QListWidget(self.tab)
         self.listWidget_3.setGeometry(QtCore.QRect(0, 210, 161, 201))
         self.listWidget_3.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.listWidget_3.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.listWidget_3.setObjectName("listWidget_3")
-        # for item in datak:
-        #     items = QtWidgets.QListWidgetItem(item)
-        #     self.listWidget_3.addItem(items)
 
         self.listWidget_4 = ListS("listWidget", self.tab, self, "measurement", 170, 60, 401, 31)
 
@@ -426,10 +357,12 @@ class Ui_MainWindow(object):
         self.widget.setGeometry(QtCore.QRect(170, 100, 411, 311))
         self.widget.setObjectName("widget")
 
+        # Box layout for Plot frame
         l = QtWidgets.QVBoxLayout(self.widget)
         self.sc = MyDynamicMplCanvas(self.tab, width=10, height=2, dpi=100)
         l.addWidget(self.sc)
 
+        # Box layout for Combobox
         self.listWidget_5 = QtWidgets.QHBoxLayout(self.tab)
         self.listWidget_5.setGeometry(QtCore.QRect(590, 20, 171, 111))
         self.listWidget_5.setObjectName("listWidget_5")
@@ -446,13 +379,6 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.tab)
         self.pushButton_3.setGeometry(QtCore.QRect(520, 420, 75, 23))
         self.pushButton_3.setObjectName("pushButton_3")
-        # self.pushButton_3.clicked.connect(self.getItem)
-        # self.frame = QtWidgets.QFrame(self.verticalLayoutWidget)
-        # self.frame.setStyleSheet("background-color: rgb(198, 255, 203);")
-        # self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        # self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        # self.frame.setObjectName("frame")
-        # self.verticalLayout.addWidget(self.frame)
         self.pushButton.raise_()
         self.pushButton_2.raise_()
         self.listWidget.raise_()
@@ -503,16 +429,16 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def clearLayout(self, option=None):
+        # To clear layout
         for i in reversed(range(self.verticalLayout.count())):
             self.verticalLayout.itemAt(i).widget().deleteLater()
-        # def orderData(self, data):
 
     def opClearLayout(self):
+        # Integrated clear layout function
         combo_option = self.refresh()
         self.clearLayout()
 
         for item in combo_option.keys():
-
             combobox = CheckComboBox()
             combobox.setObjectName("combobox>{}".format(item))
             print("combobox>{}".format(item))
@@ -533,31 +459,23 @@ class Ui_MainWindow(object):
         return self.eventFilter(source, event)
 
     def openFile(self):
+        # Open dialog and select the directory of file
         self.dr = str(QtWidgets.QFileDialog.getOpenFileName()[0])
         print(self.dr)
-        # _translate = QtCore.QCoreApplication.translate
         _translate = QtCore.QCoreApplication.translate
-        # file = self.app.openBox("Select file")
         if self.dr != '':
-            # self.file = file
-            # self.myLongTask.start()
+
             data_file = self.dr
             self.data = pd.read_excel(data_file)
-            # self.app.changeOptionBox("X:", self.data.keys())
-            # print(self.data.keys())
             self.dimdata = self.data.select_dtypes(include=['object'])
             self.mesudata = self.data._get_numeric_data()
-            # print(self.mesudata.key())
             for i in self.dimdata.keys():
-                # print(i)
                 item = QtWidgets.QListWidgetItem(i)
                 self.listWidget_2.addItem(item)
-                # print()
-                # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
             for j in self.mesudata.keys():
                 item = QtWidgets.QListWidgetItem(j)
                 self.listWidget_3.addItem(item)
-                # print("another1")
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PANXEL"))
@@ -577,6 +495,7 @@ class Ui_MainWindow(object):
         self.actionOpen.triggered.connect(self.openFile)
 
     def plot(self):
+        # Plotting the graph
         self.refresh()
         myDim = self.dimSelected
         myMeas = self.measSelected
@@ -584,26 +503,31 @@ class Ui_MainWindow(object):
         myFilter = self.filter
         myData = self.data[myDim + myMeas]
 
+        # If filter has not been selected
         if myFilterSelected == [] or myFilter == {}:
             myData = myData.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
         else:
             for i in range(len(myFilterSelected)):
+                temp = []
                 for j in range(len(myFilter[myFilterSelected[i]])):
-                    myData = myData.loc[myData[myFilterSelected[i]] == myFilter[myFilterSelected[i]][j]]
+                    temp.append(myFilter[myFilterSelected[i]][j])
+
+                for item in temp:
+                    myData = myData.loc[myData[myFilterSelected[i]] == item]
                 # myData = myData.loc[myData[myFilterSelected[i]] == myFilter[myFilterSelected[i]]]
             myData = myData.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+            print(myData)
 
         self.sc.update_figure(myData)
         print("Plot")
 
     def refresh(self):
+        # Refresh the variable and use for combo option
         for i in range(self.listWidget.count()):
-            print(i)
             self.dimSelected.append(self.listWidget.item(i).text())
         self.dimSelected = list(set(self.dimSelected))
 
         for i in range(self.listWidget_4.count()):
-            print(i)
             self.measSelected.append(self.listWidget_4.item(i).text())
         self.measSelected = list(set(self.measSelected))
 
@@ -616,17 +540,20 @@ class Ui_MainWindow(object):
             if child != item:
                 self.filterSelected.append(item)
                 self.filter[item] = child
-            # print(child)
+
+        # Cast filterSelected to list without duplicate
         self.filterSelected = list(set(self.filterSelected))
 
         print(self.filterSelected, "Filter Select")
         print(self.filter, "Filter")
 
+        # After refresh, getComboOptions
         result = self.getComboOptions()
         return result
 
     def getComboOptions(self):
-        print("Call getComboOptions")
+        # Caution
+        # Require refresh before you call this function
         myDim = self.dimSelected
         myMeas = self.measSelected
         myFilterSelected = self.filterSelected
@@ -638,7 +565,7 @@ class Ui_MainWindow(object):
         for i in range(len(myFilterSelected)):
             for j in range(len(myFilter[myFilterSelected[i]])):
                 myData = myData.loc[myData[myFilterSelected[i]] == myFilter[myFilterSelected[i]][j]]
-            # myData = myData.loc[myData[myFilterSelected[i]] == myFilter[myFilterSelected[i]]]
+
         print("Pass Stage 1")
         for i, item in enumerate(myDim):
             self.combo_option[item] = myData[myDim[i]].unique()
@@ -648,6 +575,7 @@ class Ui_MainWindow(object):
         return result
 
     def clearFilter(self):
+        # Clear Filter and Add new combobox
         self.filterSelected = []
         self.filter = {}
         self.clearLayout()
@@ -663,9 +591,8 @@ class Ui_MainWindow(object):
                     print("add complete")
 
     def on_combobox_changed(self, value):
+        # Not currently use
         combo_option = self.refresh()
-        print(combo_option)
-        print(combo_option.keys())
         self.clearLayout()
         for item in combo_option.keys():
             combobox = CheckComboBox()
@@ -675,107 +602,6 @@ class Ui_MainWindow(object):
             combobox.addItems(combo_option[item])
             combobox.currentTextChanged.connect(self.on_combobox_changed)
             self.verticalLayout.addWidget(combobox)
-
-    def clickOnMe(self):
-        data_file = "global.xlsx"
-
-        if not self.time_count:
-            # First Time
-
-            datak = self.data.keys()
-            print(datak)
-
-            dim = self.listWidget.getItem()
-            meas = self.listWidget_4.getItem()
-
-            # Clear item in VerticalLayout
-            for item in range(self.verticalLayout.count()):
-                layout_item = self.verticalLayout.itemAt(item)
-                self.verticalLayout.removeItem(layout_item)
-
-            for item in dim:
-                combobox = QtWidgets.QComboBox()
-                combobox.setObjectName("combobox>{}".format(item))
-                print("combobox>{}".format(item))
-                combobox.addItems(self.data[item].unique())
-            #
-                self.verticalLayout.addWidget(combobox)
-
-            print(dim, "Dimension")
-            print(meas, "Measurement")
-
-            # data_ss = data[['Country', 'Category', 'Sales']]
-            data_ss = self.data[dim+meas]
-            # data_sss = data_ss.loc[data_ss['Country'] == "Italy"]
-            # data_cat = data_sss.loc[data_sss['Category'].isin(['Technology'])]
-            # sum_cat = data_sss.groupby('Category')['Sales'].sum()
-
-            pdf = data_ss.pivot_table(index=dim, values=meas, aggfunc=np.sum)
-
-            # data_sorted = data_ss.sort_values(['Sales'], ascending=False)
-            # datas = data_sss.sort_values(['Sales'], ascending=[False])
-            # ddss = data_sss.pivot_table(index=['Category'])
-
-            # print(data_ss)
-            # print(data_sss)
-            # print(sum_cat)
-            # print(data['Country'].unique())
-            # print(pdf)
-
-            # pdf.head().plot.bar()
-            # plt.show()
-            self.sc.update_figure(pdf.head())
-            self.time_count = True
-        else:
-            print("SEY")
-            # self.first_time = False
-            dim = self.listWidget.dimension
-            meas = self.listWidget_4.dimension
-
-            print(self.dim_dict)
-            # print(self.dim_dict["combobox>{}".format(dim[0])])
-            # data_q = self.data.loc[self.data[dim[0]] == self.dim_dict["combobox>{}".format(dim[0])]]
-            # print(data_q)
-            for item in dim:
-
-                try:
-                    child = self.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(item))
-                    if child is not None:
-
-                        pass
-                    else:
-                        combobox = QtWidgets.QComboBox()
-                        combobox.setObjectName("combobox>{}".format(item))
-                        print("combobox>{}".format(item))
-
-
-                        # combobox.addItems(data_q[item].unique())
-                #
-                        # self.verticalLayout.addWidget(combobox)
-                except:
-                    pass
-
-            print(dim, "dim")
-            print(meas, "meas")
-
-            self.dim_dict = {}
-
-            # child = self.tab.findChild(QtWidgets.QComboBox, "combobox>Country")
-            # print(child.currentText())
-            for item in dim:
-                child = self.tab.findChild(QtWidgets.QComboBox, "combobox>{}".format(item))
-                # child = QtCore.Qt.FindDirectChildrenOnly(QtWidgets.QComboBox, "combobox>{}".format(item))
-                # child = QtWidgets.QComboBox.objectName()
-                self.dim_dict["combobox>{}".format(item)] = child.currentText()
-
-            print(self.dim_dict)
-
-            data_ss = self.data[dim+meas]
-            pdf = data_ss.pivot_table(index=dim, values=meas, aggfunc=np.sum)
-
-            self.sc.update_figure(pdf)
-            # data_cat = data_sss.loc[data_sss['Category'].isin(['Technology'])]
-            # sum_cat = data_sss.groupby('Category')['Sales'].sum()
 
 
 if __name__ == "__main__":
