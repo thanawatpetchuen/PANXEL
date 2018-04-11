@@ -13,6 +13,9 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import hashlib
+import time
+from PandasModel import PandasModel
 
 data_file = "global.xlsx"
 # data = pd.read_excel(data_file)
@@ -370,27 +373,29 @@ class ListS(QtWidgets.QListWidget):
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(778, 526)
+        MainWindow.resize(1269, 682)
+        # MainWindow.showMaximized()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(0, 0, 771, 501))
+        # self.tabWidget.setGeometry(QtCore.QRect(0, 0, 771, 501))
         self.tabWidget.setStyleSheet("")
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.pushButton = QtWidgets.QPushButton(self.tab)
-        self.pushButton.setGeometry(QtCore.QRect(680, 420, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(1060, 580, 75, 23))
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_2.setGeometry(QtCore.QRect(600, 420, 75, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(970, 580, 75, 23))
         self.pushButton_2.setObjectName("pushButton_2")
         # self.pushButton_2.clicked.connect(self.clickOnMe)
 
-        self.listWidget = ListS("listWidget", self.tab, self, "dimension", 170, 20, 401, 31)
-
+        self.listWidget = ListS("listWidget", self.tab, self, "dimension", 460, 10, 411, 41)
         self.listWidget_2 = QtWidgets.QListWidget(self.tab)
-        self.listWidget_2.setGeometry(QtCore.QRect(0, 20, 161, 171))
+        self.listWidget_2.setGeometry(QtCore.QRect(0, 31, 160, 262))
         self.listWidget_2.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.listWidget_2.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.listWidget_2.setObjectName("listWidget_2")
@@ -398,7 +403,7 @@ class Ui_MainWindow(object):
         #     items = QtWidgets.QListWidgetItem(item)
         #     self.listWidget_2.addItem(items)
         self.listWidget_3 = QtWidgets.QListWidget(self.tab)
-        self.listWidget_3.setGeometry(QtCore.QRect(0, 210, 161, 201))
+        self.listWidget_3.setGeometry(QtCore.QRect(0, 330, 160, 281))
         self.listWidget_3.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.listWidget_3.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.listWidget_3.setObjectName("listWidget_3")
@@ -406,22 +411,22 @@ class Ui_MainWindow(object):
         #     items = QtWidgets.QListWidgetItem(item)
         #     self.listWidget_3.addItem(items)
 
-        self.listWidget_4 = ListS("listWidget", self.tab, self, "measurement", 170, 60, 401, 31)
+        self.listWidget_4 = ListS("listWidget", self.tab, self, "measurement", 460, 50, 411, 41)
 
         self.label = QtWidgets.QLabel(self.tab)
-        self.label.setGeometry(QtCore.QRect(0, 0, 161, 20))
+        self.label.setGeometry(QtCore.QRect(0, 0, 161, 31))
         self.label.setStyleSheet("background-color:rgb(175, 254, 255);\n"
 "alternate-background-color: rgb(169, 247, 255);")
         self.label.setObjectName("label")
         self.label_3 = QtWidgets.QLabel(self.tab)
-        self.label_3.setGeometry(QtCore.QRect(0, 190, 161, 20))
+        self.label_3.setGeometry(QtCore.QRect(0, 299, 161, 30))
         self.label_3.setStyleSheet("background-color:rgb(175, 254, 255);\n"
 "alternate-background-color: rgb(169, 247, 255);\n"
 "border-color: rgb(0, 0, 0);\n"
 "border-top-color: rgb(0, 0, 0);")
         self.label_3.setObjectName("label_3")
         self.widget = QtWidgets.QWidget(self.tab)
-        self.widget.setGeometry(QtCore.QRect(170, 100, 411, 311))
+        self.widget.setGeometry(QtCore.QRect(250, 120, 771, 381))
         self.widget.setObjectName("widget")
 
         l = QtWidgets.QVBoxLayout(self.widget)
@@ -432,17 +437,17 @@ class Ui_MainWindow(object):
         self.listWidget_5.setGeometry(QtCore.QRect(590, 20, 171, 111))
         self.listWidget_5.setObjectName("listWidget_5")
         self.label_2 = QtWidgets.QLabel(self.tab)
-        self.label_2.setGeometry(QtCore.QRect(590, 0, 171, 16))
+        self.label_2.setGeometry(QtCore.QRect(1070, 20, 171, 16))
         self.label_2.setObjectName("label_2")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.tab)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(590, 20, 161, 161))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(1070, 40, 171, 141))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.verticalLayout.setAlignment(QtCore.Qt.AlignTop)
         self.pushButton_3 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_3.setGeometry(QtCore.QRect(520, 420, 75, 23))
+        self.pushButton_3.setGeometry(QtCore.QRect(880, 580, 75, 23))
         self.pushButton_3.setObjectName("pushButton_3")
         # self.pushButton_3.clicked.connect(self.getItem)
         # self.frame = QtWidgets.QFrame(self.verticalLayoutWidget)
@@ -451,6 +456,27 @@ class Ui_MainWindow(object):
         # self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         # self.frame.setObjectName("frame")
         # self.verticalLayout.addWidget(self.frame)
+        ####################################################################
+        self.pushButton_4 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_4.setGeometry(QtCore.QRect(1150, 580, 75, 23))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.label_4 = QtWidgets.QLabel(self.tab)
+        self.label_4.setGeometry(QtCore.QRect(360, 10, 91, 41))
+        self.label_4.setStyleSheet("background-color: rgb(170, 255, 0);")
+        self.label_4.setObjectName("label_4")
+        self.label_9 = QtWidgets.QLabel(self.tab)
+        self.label_9.setGeometry(QtCore.QRect(360, 50, 91, 41))
+        self.label_9.setStyleSheet("background-color: rgb(186, 133, 200);")
+        self.label_9.setObjectName("label_9")
+        self.comboBoxForGraph = QtWidgets.QComboBox(self.tab)
+        self.comboBoxForGraph.setGeometry(QtCore.QRect(250, 500, 141, 21))
+        self.comboBoxForGraph.setObjectName("comboBoxForGraph")
+        self.comboBoxForGraph.addItem("")
+        self.comboBoxForGraph.addItem("")
+        self.comboBoxForGraph.addItem("")
+        self.comboBoxForGraph.addItem("")
+
+        ####################################################################
         self.pushButton.raise_()
         self.pushButton_2.raise_()
         self.listWidget.raise_()
@@ -466,10 +492,17 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
+        self.tableView = QtWidgets.QTableView(self.tab_2)
+        # self.tableView = QtWidgets.QTableWidget(self.tab_2)
+        self.tableView.setGeometry(QtCore.QRect(0, 0, 1251, 621))
+        # self.tableView.
+        # self.tablewidget.setObjectName('tablewidget')
+        # self.tableView.setObjectName("tableView")
         self.tabWidget.addTab(self.tab_2, "")
+        self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 778, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1269, 21))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
@@ -519,39 +552,135 @@ class Ui_MainWindow(object):
 
     def openFile(self):
         self.dr = str(QtWidgets.QFileDialog.getOpenFileName()[0])
+        # dim = []
+        # mea = []
+        # progessbar1 = Ui_Form(self)
         print(self.dr)
         # _translate = QtCore.QCoreApplication.translate
         _translate = QtCore.QCoreApplication.translate
         # file = self.app.openBox("Select file")
+        self.md5()
         if self.dr != '':
-            # self.file = file
-            # self.myLongTask.start()
-            data_file = self.dr
-            self.data = pd.read_excel(data_file)
-            # self.app.changeOptionBox("X:", self.data.keys())
-            # print(self.data.keys())
-            self.dimdata = self.data.select_dtypes(include=['object'])
-            self.mesudata = self.data._get_numeric_data()
-            # print(self.mesudata.key())
-            for i in self.dimdata.keys():
-                # print(i)
-                item = QtWidgets.QListWidgetItem(i)
-                self.listWidget_2.addItem(item)
-                # print()
-                # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
-            for j in self.mesudata.keys():
-                item = QtWidgets.QListWidgetItem(j)
-                self.listWidget_3.addItem(item)
-                # print("another1")
+            if not self.checkmd5():
+                print('1st')
+                self.data_file = self.dr
+                self.data = pd.read_excel(data_file)
+                self.dimdata = self.data.select_dtypes(include=['object'])
+                self.mesudata = self.data._get_numeric_data()
+                self.add_listwidget()
+                self.setTab2()
+                self.write_datadim()
+                self.write_datamea()
+                self.write_json()
+            else:
+                print('2th')
+                self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+                self.datadimfile = '{}_datadim'.format(self.dr)
+                self.datameafile = '{}_datamea'.format(self.dr)
+                self.readtable = open(self.dataJsonfile, 'r+')
+                self.readdatadim = open(self.datadimfile, 'r+')
+                self.readdatamea = open(self.datameafile, 'r+')
+
+                rdimdata = self.readdatadim.readlines()
+                rmeadata = self.readdatamea.readlines()
+                self.dimlist = [x.strip() for x in rdimdata]
+                self.mealist = [x.strip() for x in rmeadata]
+                print(self.dimlist)
+                print(self.mealist)
+                self.add_listwidget2()
+                self.readpd = pd.read_json(self.readtable, orient='records')
+                print(type(self.readpd))
+                # print(self.readpd.head())
+                self.data = self.readpd
+                self.setTab2()
+                # self.add_listwidget2()
+        else:
+            pass
+    def setTab2(self):
+        model = PandasModel(self.data)
+        print(model)
+        self.tableView.setModel(model)
+
+    def add_listwidget(self):
+        for i in self.dimdata.keys():
+            print(i)
+            item = QtWidgets.QListWidgetItem(i)
+            self.listWidget_2.addItem(item)
+            print()
+            # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
+        for j in self.mesudata.keys():
+            item = QtWidgets.QListWidgetItem(j)
+            self.listWidget_3.addItem(item)
+            print("another1")
+
+    def add_listwidget2(self):
+        for i in self.dimlist:
+            print(i)
+            item = QtWidgets.QListWidgetItem(i)
+            self.listWidget_2.addItem(item)
+            print()
+            # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
+        for j in self.mealist:
+            item = QtWidgets.QListWidgetItem(j)
+            self.listWidget_3.addItem(item)
+            print("another1")
+
+    def write_datadim(self):
+        self.datadimfile = '{}_datadim'.format(self.dr)
+        print(self.datadimfile)
+        dimfile = open(self.datadimfile, 'w+')
+        for i in self.dimdata:
+            dimfile.write(i+"\n")
+        dimfile.close()
+
+    def write_datamea(self):
+        self.datameafile = '{}_datamea'.format(self.dr)
+        meafile = open(self.datameafile, 'w+')
+        for j in self.mesudata:
+            meafile.write(j+"\n")
+        meafile.close()
+
+    def checkmd5 (self):
+        self.rdb = open(self.file_database, 'r')
+        found = False
+        for line in self.rdb:
+            try:
+                if self.hashmd5 in line:
+                    return True
+            except AttributeError:
+                pass
+        return False
+
+    def write_json(self):
+        self.datajson = self.data.reset_index().to_json(orient='records')
+        # print(self.datajson)
+        self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+        jsonfile = open(self.dataJsonfile, 'w+')
+        jsonfile.write(self.datajson)
+        jsonfile.close()
+
+    def md5(self):
+        # Write new md5
+        print("Yes md5")
+        self.file_database = "plogs.txt"
+        self.database = open(self.file_database, 'a')
+        self.hashmd5 = hashlib.md5(open(self.dr, 'rb').read()).hexdigest()
+        self.database.write(self.hashmd5 + " " + time.strftime("%H:%M:%S") + " " + time.strftime("%d/%m/%Y") + "\n")
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PANXEL"))
         self.pushButton.setText(_translate("MainWindow", "Clear Filter"))
         self.pushButton_2.setText(_translate("MainWindow", "OK"))
         self.pushButton_3.setText(_translate("MainWindow", "Refresh"))
+        self.pushButton_4.setText(_translate("MainWindow", "Cancel"))
+        self.pushButton_4.clicked.connect(QtCore.QCoreApplication.instance().quit)
         self.pushButton_3.clicked.connect(self.refresh)
         self.pushButton.clicked.connect(self.clearFilter)
         self.pushButton_2.clicked.connect(self.plot)
+        self.label_4.setText(_translate("MainWindow", "      Dimensions"))
+        self.label_9.setText(_translate("MainWindow", "   Measurements"))
+        self.comboBoxForGraph.setItemText(0, _translate("MainWindow", "Available Graph"))
         self.label.setText(_translate("MainWindow", "                  Dimension"))
         self.label_3.setText(_translate("MainWindow", "              Measurements"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
