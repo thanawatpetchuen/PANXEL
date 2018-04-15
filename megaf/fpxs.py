@@ -60,6 +60,16 @@ class MyDynamicMplCanvas(MyMplCanvas):
         # Get DataFrame and plot
         self.axes.cla()
         df.plot(kind="bar", ax=self.axes)
+        hh = self.axes.get_ylim()[1]
+        for i in self.axes.patches:
+            print(i.get_y())
+            self.axes.text(i.get_width()/20+i.get_x(), i.get_height()+hh*0.01, "{:.2f}".format(i.get_height()))
+        self.draw()
+
+    def update_bu(self, df):
+            # Get DataFrame and plot
+        self.axes.cla()
+        df.plot(kind="bar", ax=self.axes)
         self.fig.tight_layout()
         hh = self.axes.get_ylim()[1]
         for i in self.axes.patches:
@@ -309,11 +319,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PANXEL"))
-        self.pushButton.setText(_translate("MainWindow", "Clear Filter"))
+        self.pushButton.setText(_translate("MainWindow", "Clear"))
         self.pushButton_2.setText(_translate("MainWindow", "OK"))
         self.pushButton_3.setText(_translate("MainWindow", "Refresh"))
         self.pushButton_3.clicked.connect(self.opClearLayout)
-        self.pushButton.clicked.connect(self.clearFilter)
+        self.pushButton.clicked.connect(self.clearandclean)
         self.pushButton_2.clicked.connect(self.plot)
         self.label.setText(_translate("MainWindow", "                  Dimension"))
         self.label_3.setText(_translate("MainWindow", "              Measurements"))
@@ -475,25 +485,41 @@ class Ui_MainWindow(object):
         myFilter = self.filter
         myData = self.data[myDim + myMeas]
 
+        print("From plot: (myFilterSelected)", myFilterSelected)
+        print("From plot: (myFilter)", myFilter)
+
+
+
         # If filter has not been selected
-        if myFilterSelected == [] or myFilter == {}:
+        count = 0
+        for item in myFilterSelected:
+            if myFilter[item] == []:
+                count += 1
+        if count == len(myFilterSelected):
+        # if myFilterSelected == [] or myFilter == {}:
+            print("Nothing Selected!")
             myData = myData.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+            print(myData)
         else:
             myData2 = myData
             opCode = None
-            temp = []
+
             for i in range(len(myFilterSelected)):
-
-                for j in range(len(myFilter[myFilterSelected[i]])):
-                    temp.append(myFilter[myFilterSelected[i]][j])
-
-                opCode = self.getOpcode(myFilterSelected[i], temp)
-                print(opCode)
-                myData2 = myData2[eval(opCode)]
+                temp = []
+                try:
+                    for j in range(len(myFilter[myFilterSelected[i]])):
+                        temp.append(myFilter[myFilterSelected[i]][j])
+                    print("This is TEMP: ", temp)
+                    opCode = self.getOpcode(myFilterSelected[i], temp)
+                    print(opCode)
+                    myData2 = myData2[eval(opCode)]
+                except:
+                    print("---Error occurred---")
 
             print(myData2)
             myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
 
+        print("Going to plot!")
         self.sc.update_figure(myData)
         print("Plot")
 
@@ -534,41 +560,64 @@ class Ui_MainWindow(object):
         myMeas = self.measSelected
         myFilterSelected = self.filterSelected
         myFilter = self.filter
-        myData = self.data[myDim + myMeas]
+        myData2 = self.data[myDim + myMeas]
         print(myFilter, "MY FILTER")
         print(myFilterSelected, "MY FILRERSELECTED")
 
         for i in range(len(myFilterSelected)):
-            for j in range(len(myFilter[myFilterSelected[i]])):
-                myData = myData.loc[myData[myFilterSelected[i]] == myFilter[myFilterSelected[i]][j]]
+            temp = []
+            try:
+                for j in range(len(myFilter[myFilterSelected[i]])):
+                    temp.append(myFilter[myFilterSelected[i]][j])
+
+                print("This is TEMPss: ", temp)
+                opCode = self.getOpcode(myFilterSelected[i], temp)
+                print(opCode)
+                myData2 = myData2[eval(opCode)]
+            except:
+                print("Error at getComboOptions occurred")
 
         print("Pass Stage 1")
         for i, item in enumerate(myDim):
-            self.combo_option[item] = myData[myDim[i]].unique()
+            self.combo_option[item] = myData2[myDim[i]].unique()
         print("Pass Stage 2")
         result = self.combo_option
+        print("This is RESULT: ", result)
         # print(self.combo_option)
         return result
 
-    def clearFilter(self):
-        # Clear Filter and Add new combobox
+    def clearandclean(self):
+        # Clear all temp and Add new combobox
         self.filterSelected = []
         self.filter = {}
+        self.dimSelected = []
+        self.measSelected = []
+
         self.clearLayout()
-        for item in self.dimSelected:
-                    combobox = CheckComboBox()
-                    combobox.setObjectName("combobox>{}".format(item))
-                    print("combobox>{}".format(item))
-                    combobox.addItem(item)
-                    combobox.addItems(self.data[item].unique())
-                    combobox.setObjectName("combobox>{}".format(item))
-                    combobox.currentTextChanged.connect(self.on_combobox_changed)
-                    self.verticalLayout.addWidget(combobox)
-                    print("add complete")
+        self.listWidget.clear()
+        self.listWidget_2.clear()
+        self.listWidget_3.clear()
+        self.listWidget_4.clear()
+
+        self.sc.axes.cla()
+        self.sc.draw()
+
+        self.dimdata = self.data.select_dtypes(include=['object'])
+        self.mesudata = self.data._get_numeric_data()
+        for i in self.dimdata.keys():
+            item = QtWidgets.QListWidgetItem(i)
+            self.listWidget_2.addItem(item)
+        for j in self.mesudata.keys():
+            item = QtWidgets.QListWidgetItem(j)
+            self.listWidget_3.addItem(item)
 
     def on_combobox_changed(self, value):
-        # Not currently use
+        # If Combobox changed do
+
+        # Refresh for get a fresh combo box option
         combo_option = self.refresh()
+
+        # Clear layout to add a new combobox
         self.clearLayout()
         for item in combo_option.keys():
             combobox = CheckComboBox()
