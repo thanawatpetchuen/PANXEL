@@ -11,7 +11,8 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import time
+# import
+import resources
 
 
 class MyMplCanvas(FigureCanvas):
@@ -195,78 +196,135 @@ class ListS(QtWidgets.QListWidget):
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(778, 526)
+        MainWindow.resize(1269, 682)
+        # MainWindow.showMaximized()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.centralwidget.setLocale(QtCore.QLocale('English'))
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(0, 0, 771, 501))
+        # self.tabWidget.setGeometry(QtCore.QRect(0, 0, 771, 501))
         self.tabWidget.setStyleSheet("")
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
-        self.tab.setLocale(QtCore.QLocale('English'))
         self.pushButton = QtWidgets.QPushButton(self.tab)
-        self.pushButton.setGeometry(QtCore.QRect(680, 420, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(1060, 580, 75, 23))
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_2.setGeometry(QtCore.QRect(600, 420, 75, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(970, 580, 75, 23))
         self.pushButton_2.setObjectName("pushButton_2")
         # self.pushButton_2.clicked.connect(self.clickOnMe)
 
-        self.listWidget = ListS("listWidget", self.tab, self, "dimension", 170, 20, 401, 31)
-
+        self.listWidget = ListS("listWidget", self.tab, self, "dimension", 460, 10, 411, 41)
         self.listWidget_2 = QtWidgets.QListWidget(self.tab)
-        self.listWidget_2.setGeometry(QtCore.QRect(0, 20, 161, 171))
+        self.listWidget_2.setGeometry(QtCore.QRect(0, 31, 160, 262))
         self.listWidget_2.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.listWidget_2.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.listWidget_2.setObjectName("listWidget_2")
+        # for item in datak:
+        #     items = QtWidgets.QListWidgetItem(item)
+        #     self.listWidget_2.addItem(items)
         self.listWidget_3 = QtWidgets.QListWidget(self.tab)
-        self.listWidget_3.setGeometry(QtCore.QRect(0, 210, 161, 201))
+        self.listWidget_3.setGeometry(QtCore.QRect(0, 330, 160, 281))
         self.listWidget_3.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.listWidget_3.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.listWidget_3.setObjectName("listWidget_3")
+        # for item in datak:
+        #     items = QtWidgets.QListWidgetItem(item)
+        #     self.listWidget_3.addItem(items)
 
-        self.listWidget_4 = ListS("listWidget", self.tab, self, "measurement", 170, 60, 401, 31)
+        self.listWidget_4 = ListS("listWidget", self.tab, self, "measurement", 460, 50, 411, 41)
 
         self.label = QtWidgets.QLabel(self.tab)
-        self.label.setGeometry(QtCore.QRect(0, 0, 161, 20))
+        self.label.setGeometry(QtCore.QRect(0, 0, 161, 31))
         self.label.setStyleSheet("background-color:rgb(175, 254, 255);\n"
-"alternate-background-color: rgb(169, 247, 255);")
+                                 "alternate-background-color: rgb(169, 247, 255);")
         self.label.setObjectName("label")
         self.label_3 = QtWidgets.QLabel(self.tab)
-        self.label_3.setGeometry(QtCore.QRect(0, 190, 161, 20))
+        self.label_3.setGeometry(QtCore.QRect(0, 299, 161, 30))
         self.label_3.setStyleSheet("background-color:rgb(175, 254, 255);\n"
-"alternate-background-color: rgb(169, 247, 255);\n"
-"border-color: rgb(0, 0, 0);\n"
-"border-top-color: rgb(0, 0, 0);")
+                                   "alternate-background-color: rgb(169, 247, 255);\n"
+                                   "border-color: rgb(0, 0, 0);\n"
+                                   "border-top-color: rgb(0, 0, 0);")
         self.label_3.setObjectName("label_3")
         self.widget = QtWidgets.QWidget(self.tab)
-        self.widget.setGeometry(QtCore.QRect(170, 100, 411, 311))
+        self.widget.setGeometry(QtCore.QRect(250, 120, 771, 381))
         self.widget.setObjectName("widget")
 
-        # Box layout for Plot frame
         l = QtWidgets.QVBoxLayout(self.widget)
         self.sc = MyDynamicMplCanvas(self.tab, width=10, height=2, dpi=100)
         l.addWidget(self.sc)
 
-        # Box layout for Combobox
         self.listWidget_5 = QtWidgets.QHBoxLayout(self.tab)
         self.listWidget_5.setGeometry(QtCore.QRect(590, 20, 171, 111))
         self.listWidget_5.setObjectName("listWidget_5")
         self.label_2 = QtWidgets.QLabel(self.tab)
-        self.label_2.setGeometry(QtCore.QRect(590, 0, 171, 16))
+        self.label_2.setGeometry(QtCore.QRect(1070, 20, 171, 16))
         self.label_2.setObjectName("label_2")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.tab)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(590, 20, 161, 161))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(1070, 40, 171, 141))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.verticalLayout.setAlignment(QtCore.Qt.AlignTop)
         self.pushButton_3 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_3.setGeometry(QtCore.QRect(520, 420, 75, 23))
+        self.pushButton_3.setGeometry(QtCore.QRect(880, 580, 75, 23))
         self.pushButton_3.setObjectName("pushButton_3")
+        # self.pushButton_3.clicked.connect(self.getItem)
+        # self.frame = QtWidgets.QFrame(self.verticalLayoutWidget)
+        # self.frame.setStyleSheet("background-color: rgb(198, 255, 203);")
+        # self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        # self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        # self.frame.setObjectName("frame")
+        # self.verticalLayout.addWidget(self.frame)
+        ####################################################################
+        self.pushButton_4 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_4.setGeometry(QtCore.QRect(1150, 580, 75, 23))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.label_4 = QtWidgets.QLabel(self.tab)
+        self.label_4.setGeometry(QtCore.QRect(360, 10, 91, 41))
+        self.label_4.setStyleSheet("background-color: rgb(170, 255, 0);")
+        self.label_4.setObjectName("label_4")
+        self.label_9 = QtWidgets.QLabel(self.tab)
+        self.label_9.setGeometry(QtCore.QRect(360, 50, 91, 41))
+        self.label_9.setStyleSheet("background-color: rgb(186, 133, 200);")
+        self.label_9.setObjectName("label_9")
+        self.pushButton_5 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_5.setGeometry(QtCore.QRect(1120, 200, 81, 71))
+        self.pushButton_5.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_5.setStyleSheet("background-image: url(:/1.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_5.setText("")
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_6 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_6.setGeometry(QtCore.QRect(1120, 280, 81, 71))
+        self.pushButton_6.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_6.setStyleSheet("background-image: url(:/2.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_6.setText("")
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.pushButton_7 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_7.setGeometry(QtCore.QRect(1120, 370, 81, 71))
+        self.pushButton_7.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_7.setStyleSheet("background-image: url(:/3.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_7.setText("")
+        self.pushButton_7.setObjectName("pushButton_7")
+        self.pushButton_8 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_8.setGeometry(QtCore.QRect(1120, 460, 81, 71))
+        self.pushButton_8.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_8.setStyleSheet("background-image: url(:/line-graphic-81x71.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_8.setText("")
+        self.pushButton_8.setObjectName("pushButton_8")
+
+        ####################################################################
         self.pushButton.raise_()
         self.pushButton_2.raise_()
         self.listWidget.raise_()
@@ -282,29 +340,38 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
+        self.tableView = QtWidgets.QTableView(self.tab_2)
+        # self.tableView = QtWidgets.QTableWidget(self.tab_2)
+        self.tableView.setGeometry(QtCore.QRect(0, 0, 1251, 621))
+        # self.tableView.
+        # self.tablewidget.setObjectName('tablewidget')
+        # self.tableView.setObjectName("tableView")
         self.tabWidget.addTab(self.tab_2, "")
+        self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
+        ############################################33
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 778, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1269, 21))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
-        self.menuOption = QtWidgets.QMenu(self.menubar)
-        self.menuOption.setObjectName("menuOption")
         MainWindow.setMenuBar(self.menubar)
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
         self.menu.addAction(self.actionOpen)
-        self.menuOption.addSeparator()
-        self.menuOption.addSeparator()
-        self.menuOption.addSeparator()
-        self.menuOption.addSeparator()
         self.menubar.addAction(self.menu.menuAction())
-        self.menubar.addAction(self.menuOption.menuAction())
+        ############################################################3
         # QtWidgets.QShortcut()
+        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.actionSave_Fugure_as = QtWidgets.QAction(MainWindow)
+        self.actionSave_Fugure_as.setObjectName("actionSave_Fugure_as")
+        self.menu.addAction(self.actionOpen)
+        self.menu.addAction(self.actionSave)
+        self.menu.addAction(self.actionSave_Fugure_as)
         self.shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+O"), self.tab)
         self.shortcut.activated.connect(self.openFile)
-
+        #########################################################
         self.time_count = False
         self.dimSelected = []
         self.measSelected = []
@@ -322,6 +389,8 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Clear"))
         self.pushButton_2.setText(_translate("MainWindow", "OK"))
         self.pushButton_3.setText(_translate("MainWindow", "Refresh"))
+        self.pushButton_4.setText(_translate("MainWindow", "Cancel"))
+        self.pushButton_4.clicked.connect(QtCore.QCoreApplication.instance().quit)
         self.pushButton_3.clicked.connect(self.opClearLayout)
         self.pushButton.clicked.connect(self.clearandclean)
         self.pushButton_2.clicked.connect(self.plot)
@@ -330,8 +399,10 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
         self.menu.setTitle(_translate("MainWindow", "File"))
-        self.menuOption.setTitle(_translate("MainWindow", "Option"))
+        # self.menuOption.setTitle(_translate("MainWindow", "Option"))
         self.actionOpen.setText(_translate("MainWindow", "Open      [Ctrl+O]"))
+        self.actionSave.setText(_translate("MainWindow", "Save"))
+        self.actionSave_Fugure_as.setText(_translate("MainWindow", "Save Fugure as...."))
         self.actionOpen.triggered.connect(self.openFile)
 
     def addCombobox(self, who, items, option=None):
