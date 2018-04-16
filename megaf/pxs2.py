@@ -16,6 +16,7 @@ import numpy as np
 import hashlib
 import time
 from PandasModel import PandasModel
+import resources
 
 data_file = "global.xlsx"
 # data = pd.read_excel(data_file)
@@ -468,13 +469,38 @@ class Ui_MainWindow(object):
         self.label_9.setGeometry(QtCore.QRect(360, 50, 91, 41))
         self.label_9.setStyleSheet("background-color: rgb(186, 133, 200);")
         self.label_9.setObjectName("label_9")
-        self.comboBoxForGraph = QtWidgets.QComboBox(self.tab)
-        self.comboBoxForGraph.setGeometry(QtCore.QRect(250, 500, 141, 21))
-        self.comboBoxForGraph.setObjectName("comboBoxForGraph")
-        self.comboBoxForGraph.addItem("")
-        self.comboBoxForGraph.addItem("")
-        self.comboBoxForGraph.addItem("")
-        self.comboBoxForGraph.addItem("")
+        self.pushButton_5 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_5.setGeometry(QtCore.QRect(1120, 200, 81, 71))
+        self.pushButton_5.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_5.setStyleSheet("background-image: url(:/1.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_5.setText("")
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_6 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_6.setGeometry(QtCore.QRect(1120, 280, 81, 71))
+        self.pushButton_6.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_6.setStyleSheet("background-image: url(:/2.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_6.setText("")
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.pushButton_7 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_7.setGeometry(QtCore.QRect(1120, 370, 81, 71))
+        self.pushButton_7.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_7.setStyleSheet("background-image: url(:/3.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_7.setText("")
+        self.pushButton_7.setObjectName("pushButton_7")
+        self.pushButton_8 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_8.setGeometry(QtCore.QRect(1120, 460, 81, 71))
+        self.pushButton_8.setMaximumSize(QtCore.QSize(261, 251))
+        self.pushButton_8.setStyleSheet("background-image: url(:/line-graphic-81x71.png);\n"
+                                        "\n"
+                                        "background-color: rgb(255, 255, 255);")
+        self.pushButton_8.setText("")
+        self.pushButton_8.setObjectName("pushButton_8")
 
         ####################################################################
         self.pushButton.raise_()
@@ -506,19 +532,20 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
-        self.menuOption = QtWidgets.QMenu(self.menubar)
-        self.menuOption.setObjectName("menuOption")
         MainWindow.setMenuBar(self.menubar)
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
         self.menu.addAction(self.actionOpen)
-        self.menuOption.addSeparator()
-        self.menuOption.addSeparator()
-        self.menuOption.addSeparator()
-        self.menuOption.addSeparator()
         self.menubar.addAction(self.menu.menuAction())
-        self.menubar.addAction(self.menuOption.menuAction())
+
         # QtWidgets.QShortcut()
+        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.actionSave_Fugure_as = QtWidgets.QAction(MainWindow)
+        self.actionSave_Fugure_as.setObjectName("actionSave_Fugure_as")
+        self.menu.addAction(self.actionOpen)
+        self.menu.addAction(self.actionSave)
+        self.menu.addAction(self.actionSave_Fugure_as)
         self.shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+O"), self.tab)
         self.shortcut.activated.connect(self.openFile)
 
@@ -680,13 +707,13 @@ class Ui_MainWindow(object):
         self.pushButton_2.clicked.connect(self.plot)
         self.label_4.setText(_translate("MainWindow", "      Dimensions"))
         self.label_9.setText(_translate("MainWindow", "   Measurements"))
-        self.comboBoxForGraph.setItemText(0, _translate("MainWindow", "Available Graph"))
         self.label.setText(_translate("MainWindow", "                  Dimension"))
         self.label_3.setText(_translate("MainWindow", "              Measurements"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
         self.menu.setTitle(_translate("MainWindow", "File"))
-        self.menuOption.setTitle(_translate("MainWindow", "Option"))
+        self.actionSave.setText(_translate("MainWindow", "Save"))
+        self.actionSave_Fugure_as.setText(_translate("MainWindow", "Save Fugure as...."))
         self.actionOpen.setText(_translate("MainWindow", "Open      [Ctrl+O]"))
         self.actionOpen.triggered.connect(self.openFile)
 
