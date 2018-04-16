@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a2bedf53-0cd5-4bc7-9952-415ccebfa195" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/megaf/pxs2.py" afterPath="$PROJECT_DIR$/megaf/pxs2.py" />
-    </list>
+    <list default="true" id="a2bedf53-0cd5-4bc7-9952-415ccebfa195" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +20,8 @@
             <file leaf-file-name="neweiei2.py" pinned="false" current-in-tab="true">
               <entry file="file://$USER_HOME$/Desktop/New PANXEL/PANXEL/neweiei2.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="342">
-                    <caret line="190" column="8" lean-forward="false" selection-start-line="190" selection-start-column="8" selection-end-line="191" selection-end-column="89" />
+                  <state relative-caret-position="413">
+                    <caret line="220" column="56" lean-forward="false" selection-start-line="220" selection-start-column="56" selection-end-line="220" selection-end-column="56" />
                     <folding />
                   </state>
                 </provider>
@@ -104,8 +102,8 @@
       <file leaf-file-name="pxs2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/megaf/pxs2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2284">
-              <caret line="279" column="30" lean-forward="true" selection-start-line="279" selection-start-column="30" selection-end-line="279" selection-end-column="30" />
+            <state relative-caret-position="307">
+              <caret line="752" column="54" lean-forward="false" selection-start-line="752" selection-start-column="54" selection-end-line="752" selection-end-column="54" />
               <folding>
                 <element signature="e#194#236#0" expanded="true" />
               </folding>
@@ -171,8 +169,8 @@
         <option value="$PROJECT_DIR$/martinluther.py" />
         <option value="$PROJECT_DIR$/superf/pxs.py" />
         <option value="$PROJECT_DIR$/exel.py" />
-        <option value="$USER_HOME$/Desktop/New PANXEL/PANXEL/neweiei2.py" />
         <option value="$PROJECT_DIR$/megaf/pxs2.py" />
+        <option value="$USER_HOME$/Desktop/New PANXEL/PANXEL/neweiei2.py" />
       </list>
     </option>
   </component>
@@ -794,21 +792,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/New PANXEL/PANXEL/neweiei2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="190" column="8" lean-forward="false" selection-start-line="190" selection-start-column="8" selection-end-line="191" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/megaf/pxs2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2284">
-          <caret line="279" column="30" lean-forward="true" selection-start-line="279" selection-start-column="30" selection-end-line="279" selection-end-column="30" />
+        <state relative-caret-position="307">
+          <caret line="752" column="54" lean-forward="false" selection-start-line="752" selection-start-column="54" selection-end-line="752" selection-end-column="54" />
           <folding>
             <element signature="e#194#236#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/New PANXEL/PANXEL/neweiei2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="220" column="56" lean-forward="false" selection-start-line="220" selection-start-column="56" selection-end-line="220" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
