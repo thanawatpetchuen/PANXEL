@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Form implementation generated from reading ui file '.\asd.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
@@ -13,7 +11,7 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-
+import time
 
 
 class MyMplCanvas(FigureCanvas):
@@ -200,12 +198,14 @@ class Ui_MainWindow(object):
         MainWindow.resize(778, 526)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.centralwidget.setLocale(QtCore.QLocale('English'))
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(0, 0, 771, 501))
         self.tabWidget.setStyleSheet("")
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
+        self.tab.setLocale(QtCore.QLocale('English'))
         self.pushButton = QtWidgets.QPushButton(self.tab)
         self.pushButton.setGeometry(QtCore.QRect(680, 420, 75, 23))
         self.pushButton.setObjectName("pushButton")
@@ -351,36 +351,75 @@ class Ui_MainWindow(object):
                 print(ordered_dict, "from More than 1")
                 for item in items:
                     try:
-                        combobox = CheckComboBox()
-                        combobox.setObjectName("combobox>{}".format(item))
-                        print("combobox>{}".format(item))
-                        combobox.addItem(item)
-                        combobox.addItems(ordered_dict[item])
-                        combobox.currentTextChanged.connect(self.on_combobox_changed)
-                        self.verticalLayout.addWidget(combobox)
+                        if item in self.timedata:
+                            print("In timedata")
+                            dateStart = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                            dateStart.setCalendarPopup(True)
+                            dateStop = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                            dateStop.setCalendarPopup(True)
+                            dateStart.setObjectName("datepicker_start>{}".format(item))
+                            dateStop.setObjectName("datepicker_stop>{}".format(item))
+                            self.verticalLayout.addWidget(dateStart)
+                            self.verticalLayout.addWidget(dateStop)
+                        else:
+                            combobox = CheckComboBox()
+                            combobox.setObjectName("combobox>{}".format(item))
+                            print("combobox>{}".format(item), "from Try")
+                            combobox.addItem(item)
+                            combobox.addItems(ordered_dict[item])
+                            combobox.currentTextChanged.connect(self.on_combobox_changed)
+                            self.verticalLayout.addWidget(combobox)
                     except:
-                        combobox = CheckComboBox()
-                        combobox.setObjectName("combobox>{}".format(item))
-                        print("combobox>{}".format(item))
-                        combobox.addItem(item)
-                        combobox.addItems(self.widget.data[item])
-                        combobox.currentTextChanged.connect(self.on_combobox_changed)
-                        self.verticalLayout.addWidget(combobox)
+                        if item in self.timedata:
+                            print("In timedata")
+                            # datePopup = QtWidgets.QCalendarWidget
+                            # datePopup.set
+                            dateStart = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                            dateStart.setCalendarPopup(True)
+                            dateStop = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                            dateStop.setCalendarPopup(True)
+                            dateStart.setObjectName("datepicker_start>{}".format(item))
+                            dateStop.setObjectName("datepicker_stop>{}".format(item))
+                            self.verticalLayout.addWidget(dateStart)
+                            self.verticalLayout.addWidget(dateStop)
+                        else:
+                            combobox = CheckComboBox()
+                            combobox.setObjectName("combobox>{}".format(item))
+                            print("combobox>{}".format(item), "from Except")
+                            combobox.addItem(item)
+                            combobox.addItems(self.widget.data[item])
+                            combobox.currentTextChanged.connect(self.on_combobox_changed)
+                            self.verticalLayout.addWidget(combobox)
+                            print("Pass from Except")
             else:
                 # First time
                 print("First time")
                 print(items, "itemsss")
+
+
+
                 for item in items:
                     print(item)
-                    combobox = CheckComboBox()
-                    combobox.setObjectName("combobox>{}".format(item))
-                    print("combobox>{}".format(item))
-                    combobox.addItem(item)
-                    combobox.addItems(self.data[item].unique())
-                    combobox.setObjectName("combobox>{}".format(item))
-                    combobox.currentTextChanged.connect(self.on_combobox_changed)
-                    self.verticalLayout.addWidget(combobox)
-                    print("add complete")
+                    if item in self.timedata:
+                        print("In timedata")
+                        dateStart = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                        dateStart.setCalendarPopup(True)
+                        dateStop = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                        dateStop.setCalendarPopup(True)
+                        dateStart.setObjectName("datepicker_start>{}".format(item))
+                        dateStop.setObjectName("datepicker_stop>{}".format(item))
+                        self.verticalLayout.addWidget(dateStart)
+                        self.verticalLayout.addWidget(dateStop)
+                    else:
+                        combobox = CheckComboBox()
+                        combobox.setObjectName("combobox>{}".format(item))
+                        print("combobox>{}".format(item), "from First time")
+                        combobox.addItem(item)
+                        combobox.addItems(self.data[item].unique())
+                        combobox.setObjectName("combobox>{}".format(item))
+                        combobox.currentTextChanged.connect(self.on_combobox_changed)
+                        self.verticalLayout.addWidget(combobox)
+                        print("add complete")
 
     def orderData(self, items, option=None):
         # Ordering Data from use as combobox OPTION
@@ -426,13 +465,25 @@ class Ui_MainWindow(object):
         self.clearLayout()
 
         for item in combo_option.keys():
-            combobox = CheckComboBox()
-            combobox.setObjectName("combobox>{}".format(item))
-            print("combobox>{}".format(item))
-            combobox.addItem(item)
-            combobox.addItems(combo_option[item])
-            combobox.currentTextChanged.connect(self.on_combobox_changed)
-            self.verticalLayout.addWidget(combobox)
+            print(item, "OPCLEAR")
+            if item in self.timedata:
+                print("In timedata")
+                dateStart = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                dateStart.setCalendarPopup(True)
+                dateStop = QtWidgets.QDateTimeEdit(QtCore.QDate.currentDate())
+                dateStop.setCalendarPopup(True)
+                dateStart.setObjectName("datepicker_start>{}".format(item))
+                dateStop.setObjectName("datepicker_stop>{}".format(item))
+                self.verticalLayout.addWidget(dateStart)
+                self.verticalLayout.addWidget(dateStop)
+            else:
+                combobox = CheckComboBox()
+                combobox.setObjectName("combobox>{}".format(item))
+                print("combobox>{}".format(item))
+                combobox.addItem(item)
+                combobox.addItems(combo_option[item])
+                combobox.currentTextChanged.connect(self.on_combobox_changed)
+                self.verticalLayout.addWidget(combobox)
 
     def eventFilter(self, source, event):
         if(event.type() == QtCore.QEvent.ContextMenu and
@@ -445,36 +496,93 @@ class Ui_MainWindow(object):
             return True
         return self.eventFilter(source, event)
 
+    def thaitoarab(self, num):
+        ll = ''
+        for i in num:
+            if i == '๐':
+                ll += '0'
+            elif i == '๑':
+                ll += '1'
+            elif i == '๒':
+                ll += '2'
+            elif i == '๓':
+                ll += '3'
+            elif i == '๔':
+                ll += '4'
+            elif i == '๕':
+                ll += '5'
+            elif i == '๖':
+                ll += '6'
+            elif i == '๗':
+                ll += '7'
+            elif i == '๘':
+                ll += '8'
+            elif i == '๙':
+                ll += '9'
+            else:
+                ll += '/'
+
+        print(ll)
+        return ll
+
     def openFile(self):
         # Open dialog and select the directory of file
         self.dr = str(QtWidgets.QFileDialog.getOpenFileName()[0])
         print(self.dr)
         _translate = QtCore.QCoreApplication.translate
         if self.dr != '':
-
             data_file = self.dr
             self.data = pd.read_excel(data_file)
-            self.dimdata = self.data.select_dtypes(include=['object'])
+            self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
+            self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
             self.mesudata = self.data._get_numeric_data()
+            print("Date Column is ", self.timedata)
+            if not list(self.timedata):
+                # If data have time column
+                # Convert those column to pandas datetime
+                for item in self.timedata:
+                    print(item)
+                    self.data[item] = pd.to_datetime(self.data[item])
             for i in self.dimdata.keys():
+
                 item = QtWidgets.QListWidgetItem(i)
                 self.listWidget_2.addItem(item)
             for j in self.mesudata.keys():
                 item = QtWidgets.QListWidgetItem(j)
                 self.listWidget_3.addItem(item)
 
-    def getOpcode(self, type, temp):
+    def getOpcode(self, type, temp, istime=False):
+        # get a DYNAMIC Op Code for using filter
         print("Type: ", type)
-        print(temp)
+        print(u'{}'.format(temp[0]))
+        print("istime: ", istime)
 
         op = '(myData2["{}"] == "{}")'
+        op_time = "(myData2['{type}'] >= '{start}') & (myData2['{type}'] <= '{stop}')"
         opcode_raw = []
-        for item in temp:
-            opcode_raw.append(op.format(type, item))
+        opcode_time = ''
+        if istime:
+            # If data set is time-order
+            temp_start = time.strptime(temp[0], '%d/%m/%Y')
+            temp_stop = time.strptime(temp[1], '%d/%m/%Y')
+            # print(time.strftime('%Y-%m-%d', tes))
+            temp_start = time.strftime('%Y-%m-%d', temp_start)
+            temp_stop = time.strftime('%Y-%m-%d', temp_stop)
+            print(temp_start, temp_stop, "START_STOP")
+            opcode_time = op_time.format(type=type, start=temp_start, stop=temp_stop)
+        else:
+            for item in temp:
+                opcode_raw.append(op.format(type, item))
 
+        # To join each opcode together
         opcode_cook = ' | '.join(opcode_raw)
-        # print(opcode_cook)
-        return opcode_cook
+        # opcode_cook_time = ''.join(opcode_time)
+        # result = opcode_cook + opcode_cook_time
+        # print(result)
+        if istime:
+            return opcode_time
+        else:
+            return opcode_cook
 
     def plot(self):
         # Plotting the graph
@@ -496,30 +604,55 @@ class Ui_MainWindow(object):
             if myFilter[item] == []:
                 count += 1
         if count == len(myFilterSelected):
-        # if myFilterSelected == [] or myFilter == {}:
             print("Nothing Selected!")
             myData = myData.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
             print(myData)
         else:
+            # At least one selected
             myData2 = myData
             opCode = None
+            istime = False
+            time_temp = ''
 
             for i in range(len(myFilterSelected)):
                 temp = []
                 try:
                     for j in range(len(myFilter[myFilterSelected[i]])):
-                        temp.append(myFilter[myFilterSelected[i]][j])
+                        # Temp are items which selected by its own filter
+                        if myFilterSelected[i] in self.timedata:
+                            print(myFilter[myFilterSelected[i]], "TIMETEMPP")
+                            temp = myFilter[myFilterSelected[i]]
+                        else:
+                            temp.append(myFilter[myFilterSelected[i]][j])
                     print("This is TEMP: ", temp)
-                    opCode = self.getOpcode(myFilterSelected[i], temp)
+                    if myFilterSelected[i] in self.timedata:
+                        print("TIME selected")
+                        opCode = self.getOpcode(myFilterSelected[i], temp, istime=True)
+                        time_temp = opCode
+                        istime = True
+                    else:
+                        opCode = self.getOpcode(myFilterSelected[i], temp)
+                        myData2 = myData2[eval(opCode)]
                     print(opCode)
-                    myData2 = myData2[eval(opCode)]
+
                 except:
                     print("---Error occurred---")
+                    e = sys.exc_info()[0]
+                    e2 = sys.exc_info()[1]
+                    print(e, e2)
 
-            print(myData2)
-            myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+            print("Pre DaTa2")
+            print(myData2[(myData2['Order Date'] >= '2014-11-11') & (myData2['Order Date'] <= '2014-11-12')])
+            if istime:
+                print("IS TIME")
+                myData2 = myData2[eval(time_temp)]
+                print(myData2)
+                myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+            else:
+                myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
 
         print("Going to plot!")
+        print(myData)
         self.sc.update_figure(myData)
         print("Plot")
 
@@ -537,11 +670,20 @@ class Ui_MainWindow(object):
         print(list(set(self.measSelected)), "Selected Measurement")
 
         for item in self.dimSelected:
-            child = self.tab.findChild(CheckComboBox, "combobox>{}".format(item)).getItemChecked()
-            # print(child, "CHIlddd")
-            if child != item:
+            if item in self.timedata:
+                date_start = self.tab.findChild(QtWidgets.QDateTimeEdit,
+                                                'datepicker_start>{}'.format(item)).date().toString("d/M/yyyy")
+                date_stop = self.tab.findChild(QtWidgets.QDateTimeEdit,
+                                               'datepicker_stop>{}'.format(item)).date().toString("d/M/yyyy")
                 self.filterSelected.append(item)
-                self.filter[item] = child
+                self.filter[item] = [self.thaitoarab(date_start), self.thaitoarab(date_stop)]
+            else:
+                child = self.tab.findChild(CheckComboBox, "combobox>{}".format(item)).getItemChecked()
+                # print(child, "CHIlddd")
+                if child != item:
+                    self.filterSelected.append(item)
+                    self.filter[item] = child
+
 
         # Cast filterSelected to list without duplicate
         self.filterSelected = list(set(self.filterSelected))
@@ -567,13 +709,17 @@ class Ui_MainWindow(object):
         for i in range(len(myFilterSelected)):
             temp = []
             try:
-                for j in range(len(myFilter[myFilterSelected[i]])):
-                    temp.append(myFilter[myFilterSelected[i]][j])
+                if myFilterSelected[i] in self.timedata:
+                    print("PASS")
+                    pass
+                else:
+                    for j in range(len(myFilter[myFilterSelected[i]])):
+                        temp.append(myFilter[myFilterSelected[i]][j])
 
-                print("This is TEMPss: ", temp)
-                opCode = self.getOpcode(myFilterSelected[i], temp)
-                print(opCode)
-                myData2 = myData2[eval(opCode)]
+                    print("This is TEMPss: ", temp)
+                    opCode = self.getOpcode(myFilterSelected[i], temp)
+                    print(opCode)
+                    myData2 = myData2[eval(opCode)]
             except:
                 print("Error at getComboOptions occurred")
 
@@ -602,7 +748,7 @@ class Ui_MainWindow(object):
         self.sc.axes.cla()
         self.sc.draw()
 
-        self.dimdata = self.data.select_dtypes(include=['object'])
+        self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
         self.mesudata = self.data._get_numeric_data()
         for i in self.dimdata.keys():
             item = QtWidgets.QListWidgetItem(i)
@@ -630,7 +776,11 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+    import locale
     app = QtWidgets.QApplication(sys.argv)
+    # locale.setlocale(locale.LC_ALL, 'en US')
+    # print(QtCore.QLocale())
+
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
