@@ -11,8 +11,11 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-# import
+from PandasModel import PandasModel
+import hashlib
+import time
 import resources
+import atexit
 
 
 class MyMplCanvas(FigureCanvas):
@@ -345,7 +348,7 @@ class Ui_MainWindow(object):
         self.tableView.setGeometry(QtCore.QRect(0, 0, 1251, 621))
         # self.tableView.
         # self.tablewidget.setObjectName('tablewidget')
-        # self.tableView.setObjectName("tableView")
+        self.tableView.setObjectName("tableView")
         self.tabWidget.addTab(self.tab_2, "")
         self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -394,6 +397,8 @@ class Ui_MainWindow(object):
         self.pushButton_3.clicked.connect(self.opClearLayout)
         self.pushButton.clicked.connect(self.clearandclean)
         self.pushButton_2.clicked.connect(self.plot)
+        self.label_4.setText(_translate("MainWindow", "      Dimensions"))
+        self.label_9.setText(_translate("MainWindow", "   Measurements"))
         self.label.setText(_translate("MainWindow", "                  Dimension"))
         self.label_3.setText(_translate("MainWindow", "              Measurements"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
@@ -404,6 +409,25 @@ class Ui_MainWindow(object):
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionSave_Fugure_as.setText(_translate("MainWindow", "Save Fugure as...."))
         self.actionOpen.triggered.connect(self.openFile)
+        self.actionSave.triggered.connect(self.save)
+
+    def save(self):
+        self.datadimfile = '{}_datadim'.format(self.dr)
+        dimfile = open(self.datadimfile, 'w+')
+        dimsaved = []
+        for i in range(self.listWidget_2.count()):
+            dimsaved.append(self.listWidget_2.item(i).text())
+            dimfile.write(self.listWidget_2.item(i).text()+'\n')
+        print(dimsaved)
+        print("Save!!!!!!!!")
+
+        self.datameafile = '{}_datamea'.format(self.dr)
+        meafile = open(self.datameafile, 'w+')
+        measaved = []
+        for j in range(self.listWidget_3.count()):
+            measaved.append(self.listWidget_3.item(j).text())
+            meafile.write(self.listWidget_3.item(j).text() + '\n')
+        print(measaved)
 
     def addCombobox(self, who, items, option=None):
         # Add Combobox
@@ -596,31 +620,144 @@ class Ui_MainWindow(object):
         print(ll)
         return ll
 
-    def openFile(self):
-        # Open dialog and select the directory of file
-        self.dr = str(QtWidgets.QFileDialog.getOpenFileName()[0])
-        print(self.dr)
-        _translate = QtCore.QCoreApplication.translate
-        if self.dr != '':
-            data_file = self.dr
-            self.data = pd.read_excel(data_file)
-            self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
-            self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
-            self.mesudata = self.data._get_numeric_data()
-            print("Date Column is ", self.timedata)
-            if not list(self.timedata):
-                # If data have time column
-                # Convert those column to pandas datetime
-                for item in self.timedata:
-                    print(item)
-                    self.data[item] = pd.to_datetime(self.data[item])
-            for i in self.dimdata.keys():
 
-                item = QtWidgets.QListWidgetItem(i)
-                self.listWidget_2.addItem(item)
-            for j in self.mesudata.keys():
-                item = QtWidgets.QListWidgetItem(j)
-                self.listWidget_3.addItem(item)
+
+    def write_datadim(self):
+        self.datadimfile = '{}_datadim'.format(self.dr)
+        print(self.datadimfile)
+        dimfile = open(self.datadimfile, 'w+')
+        for i in self.dimdata:
+            dimfile.write(i+"\n")
+        dimfile.close()
+
+    def write_datamea(self):
+        self.datameafile = '{}_datamea'.format(self.dr)
+        meafile = open(self.datameafile, 'w+')
+        for j in self.mesudata:
+            meafile.write(j+"\n")
+        meafile.close()
+
+    def checkmd5 (self):
+        self.rdb = open(self.file_database, 'r')
+        found = False
+        for line in self.rdb:
+            try:
+                if self.hashmd5 in line:
+                    return True
+            except AttributeError:
+                pass
+        return False
+
+    def write_json(self):
+        self.datajson = self.data.reset_index().to_json(orient = 'records')
+        # print(self.datajson)
+        self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+        jsonfile = open(self.dataJsonfile, 'w+')
+        jsonfile.write(self.datajson)
+        jsonfile.close()
+
+    def md5(self):
+        # Write new md5
+        print("Yes md5")
+        self.file_database = "plogs.txt"
+        self.database = open(self.file_database, 'a')
+        self.hashmd5 = hashlib.md5(open(self.dr, 'rb').read()).hexdigest()
+        self.database.write(self.hashmd5 + " " + time.strftime("%H:%M:%S") + " " + time.strftime("%d/%m/%Y") + "\n")
+
+
+    def openFile(self):
+        self.dr = str(QtWidgets.QFileDialog.getOpenFileName()[0])
+        # dim = []
+        # mea = []
+        # progessbar1 = Ui_Form(self)
+        print(self.dr)
+        # _translate = QtCore.QCoreApplication.translate
+        _translate = QtCore.QCoreApplication.translate
+        # file = self.app.openBox("Select file")
+        self.md5()
+        if self.dr != '':
+            if not self.checkmd5():
+                print('1st')
+                self.data_file = self.dr
+                self.data = pd.read_excel(self.data_file)
+                self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
+                self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
+                print('timedata', self.timedata)
+                self.mesudata = self.data._get_numeric_data()
+                print("Date Column is ", self.timedata)
+                if not list(self.timedata):
+                    # If data have time column
+                    # Convert those column to pandas datetime
+                    for item in self.timedata:
+                        print(item)
+                        self.data[item] = pd.to_datetime(self.data[item])
+
+                self.add_listwidget()
+                self.setTab2()
+                self.write_datadim()
+                self.write_datamea()
+
+                self.write_json()
+            else:
+                print('2th')
+                self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+                self.datadimfile = '{}_datadim'.format(self.dr)
+                self.datameafile = '{}_datamea'.format(self.dr)
+                self.readtable = open(self.dataJsonfile, 'r+')
+                self.readdatadim = open(self.datadimfile, 'r+')
+                self.readdatamea = open(self.datameafile, 'r+')
+                rdimdata = self.readdatadim.readlines()
+                rmeadata = self.readdatamea.readlines()
+                self.dimlist = [x.strip() for x in rdimdata]
+                self.mealist = [x.strip() for x in rmeadata]
+                print(self.dimlist)
+                print(self.mealist)
+                self.add_listwidget2()
+                self.readpd = pd.read_json(self.readtable, orient= 'records')
+                print(type(self.readpd))
+                # print(self.readpd.head())
+                self.data = self.readpd
+                self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
+                print("Date Column is ", self.timedata)
+                if not list(self.timedata):
+                    # If data have time column
+                    # Convert those column to pandas datetime
+                    for item in self.timedata:
+                        print(item)
+                        self.data[item] = pd.to_datetime(self.data[item])
+                self.setTab2()
+                # self.add_listwidget2()
+        else:
+            pass
+
+    def setTab2(self):
+        model = PandasModel(self.data)
+        print(model)
+        self.cleanTable = self.tableView.setModel(model)
+
+    def add_listwidget(self):
+        for i in self.dimdata.keys():
+            print(i)
+            item = QtWidgets.QListWidgetItem(i)
+            self.listWidget_2.addItem(item)
+            print()
+            # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
+        for j in self.mesudata.keys():
+            item = QtWidgets.QListWidgetItem(j)
+            self.listWidget_3.addItem(item)
+            print("another1")
+
+    def add_listwidget2(self):
+        for i in self.dimlist:
+            print(i)
+            item = QtWidgets.QListWidgetItem(i)
+            self.listWidget_2.addItem(item)
+            print()
+            # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
+        for j in self.mealist:
+            item = QtWidgets.QListWidgetItem(j)
+            self.listWidget_3.addItem(item)
+            print("another1")
 
     def getOpcode(self, type, temp, istime=False):
         # get a DYNAMIC Op Code for using filter
@@ -654,6 +791,10 @@ class Ui_MainWindow(object):
             return opcode_time
         else:
             return opcode_cook
+    def updateTable(self):
+        print('updeated')
+        self.updata = PandasModel(self.data3)
+        self.tableView.setModel(self.updata)
 
     def plot(self):
         # Plotting the graph
@@ -663,6 +804,7 @@ class Ui_MainWindow(object):
         myFilterSelected = self.filterSelected
         myFilter = self.filter
         myData = self.data[myDim + myMeas]
+        self.data3 = myData
 
         print("From plot: (myFilterSelected)", myFilterSelected)
         print("From plot: (myFilter)", myFilter)
@@ -725,6 +867,7 @@ class Ui_MainWindow(object):
         print("Going to plot!")
         print(myData)
         self.sc.update_figure(myData)
+        self.updateTable()
         print("Plot")
 
     def refresh(self):
@@ -816,6 +959,7 @@ class Ui_MainWindow(object):
         self.listWidget_3.clear()
         self.listWidget_4.clear()
 
+        self.setTab2()
         self.sc.axes.cla()
         self.sc.draw()
 
@@ -856,5 +1000,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    atexit.register(ui.save)
     sys.exit(app.exec_())
 
