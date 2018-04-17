@@ -3,11 +3,12 @@
 # Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+import pyqtgraph as pg
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-import random
+# import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,8 +16,8 @@ from PandasModel import PandasModel
 import hashlib
 import time
 import resources
-import atexit
-
+# import atexit
+import os
 
 class MyMplCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
@@ -57,6 +58,8 @@ class MyDynamicMplCanvas(MyMplCanvas):
 
     def compute_initial_figure(self):
         pass
+    def saveFigure(self):
+        self.fig.savefig("11.png")
 
     def update_figure(self, df):
         # Get DataFrame and plot
@@ -200,7 +203,6 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1269, 682)
-        # MainWindow.showMaximized()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -257,6 +259,8 @@ class Ui_MainWindow(object):
 
         l = QtWidgets.QVBoxLayout(self.widget)
         self.sc = MyDynamicMplCanvas(self.tab, width=10, height=2, dpi=100)
+        self.toolbar = NavigationToolbar(self.sc, self.tab)
+        l.addWidget(self.toolbar)
         l.addWidget(self.sc)
 
         self.listWidget_5 = QtWidgets.QHBoxLayout(self.tab)
@@ -410,7 +414,7 @@ class Ui_MainWindow(object):
         self.actionSave_Fugure_as.setText(_translate("MainWindow", "Save Fugure as...."))
         self.actionOpen.triggered.connect(self.openFile)
         self.actionSave.triggered.connect(self.save)
-
+        self.actionSave_Fugure_as.triggered.connect(self.sc.saveFigure)
     def save(self):
         self.datadimfile = '{}_datadim'.format(self.dr)
         dimfile = open(self.datadimfile, 'w+')
@@ -650,6 +654,7 @@ class Ui_MainWindow(object):
 
     def write_json(self):
         self.datajson = self.data.reset_index().to_json(orient = 'records')
+        print('12345678910')
         # print(self.datajson)
         self.dataJsonfile = '{}_Json.txt'.format(self.dr)
         jsonfile = open(self.dataJsonfile, 'w+')
@@ -663,6 +668,12 @@ class Ui_MainWindow(object):
         self.database = open(self.file_database, 'a')
         self.hashmd5 = hashlib.md5(open(self.dr, 'rb').read()).hexdigest()
         self.database.write(self.hashmd5 + " " + time.strftime("%H:%M:%S") + " " + time.strftime("%d/%m/%Y") + "\n")
+
+    def checkEmpty(self):
+        self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+        self.readJson = open(self.dataJsonfile, 'r+')
+        return os.stat(self.dataJsonfile).st_size == 0
+
 
 
     def openFile(self):
@@ -695,10 +706,13 @@ class Ui_MainWindow(object):
                 self.add_listwidget()
                 self.setTab2()
                 self.write_datadim()
+                print('Newdea')
                 self.write_datamea()
-
+                print('newdeathnote132222')
                 self.write_json()
-            else:
+                print('Newdeathnote')
+
+            elif not self.checkEmpty():
                 print('2th')
                 self.dataJsonfile = '{}_Json.txt'.format(self.dr)
                 self.datadimfile = '{}_datadim'.format(self.dr)
@@ -855,19 +869,23 @@ class Ui_MainWindow(object):
                     print(e, e2)
 
             print("Pre DaTa2")
-            print(myData2[(myData2['Order Date'] >= '2014-11-11') & (myData2['Order Date'] <= '2014-11-12')])
+            # print(myData2[(myData2['Order Date'] >= '2014-11-11') & (myData2['Order Date'] <= '2014-11-12')])
             if istime:
                 print("IS TIME")
                 myData2 = myData2[eval(time_temp)]
                 print(myData2)
                 myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
             else:
+                print('Mydata!!!!!!!!!!!!!!!!!!!', self.data3)
                 myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
 
         print("Going to plot!")
         print(myData)
         self.sc.update_figure(myData)
+        # self.data3 = myData
         self.updateTable()
+        # pltwid = pg.plot(title='new')
+        # pltwid.plot(myData)
         print("Plot")
 
     def refresh(self):
@@ -890,7 +908,7 @@ class Ui_MainWindow(object):
                 date_stop = self.tab.findChild(QtWidgets.QDateTimeEdit,
                                                'datepicker_stop>{}'.format(item)).date().toString("d/M/yyyy")
                 self.filterSelected.append(item)
-                self.filter[item] = [self.thaitoarab(date_start), self.thaitoarab(date_stop)]
+                self.filter[item] = [date_start, date_stop]
             else:
                 child = self.tab.findChild(CheckComboBox, "combobox>{}".format(item)).getItemChecked()
                 # print(child, "CHIlddd")
@@ -1000,6 +1018,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    atexit.register(ui.save)
+    # atexit.register(ui.save)
     sys.exit(app.exec_())
 
