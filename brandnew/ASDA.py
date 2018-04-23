@@ -415,7 +415,7 @@ class Ui_MainWindow(object):
         self.label_9.setStyleSheet("background-color: rgb(186, 133, 200);")
         self.label_9.setObjectName("label_9")
         self.pushButton_5 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_5.setGeometry(QtCore.QRect(1120, 200, 81, 71))
+        self.pushButton_5.setGeometry(QtCore.QRect(1120, 175, 81, 71))
         self.pushButton_5.setMaximumSize(QtCore.QSize(261, 251))
         self.pushButton_5.setStyleSheet("background-image: url(:/1.png);\n"
                                         "\n"
@@ -431,7 +431,7 @@ class Ui_MainWindow(object):
         # self.pushButton_6.setText("")
         # self.pushButton_6.setObjectName("pushButton_6")
         self.pushButton_7 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_7.setGeometry(QtCore.QRect(1120, 300, 81, 71))
+        self.pushButton_7.setGeometry(QtCore.QRect(1120, 275, 81, 71))
         self.pushButton_7.setMaximumSize(QtCore.QSize(261, 251))
         self.pushButton_7.setStyleSheet("background-image: url(:/3.png);\n"
                                         "\n"
@@ -439,7 +439,7 @@ class Ui_MainWindow(object):
         self.pushButton_7.setText("")
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_8 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_8.setGeometry(QtCore.QRect(1120, 400, 81, 71))
+        self.pushButton_8.setGeometry(QtCore.QRect(1120, 375, 81, 71))
         self.pushButton_8.setMaximumSize(QtCore.QSize(261, 251))
         self.pushButton_8.setStyleSheet("background-image: url(:/line-graphic-81x71.png);\n"
                                         "\n"
