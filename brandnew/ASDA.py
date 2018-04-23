@@ -315,7 +315,7 @@ class ListS(QtWidgets.QListWidget):
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1269, 682)
+        MainWindow.resize(1269, 690)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -431,7 +431,7 @@ class Ui_MainWindow(object):
         # self.pushButton_6.setText("")
         # self.pushButton_6.setObjectName("pushButton_6")
         self.pushButton_7 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_7.setGeometry(QtCore.QRect(1120, 370, 81, 71))
+        self.pushButton_7.setGeometry(QtCore.QRect(1120, 300, 81, 71))
         self.pushButton_7.setMaximumSize(QtCore.QSize(261, 251))
         self.pushButton_7.setStyleSheet("background-image: url(:/3.png);\n"
                                         "\n"
@@ -439,7 +439,7 @@ class Ui_MainWindow(object):
         self.pushButton_7.setText("")
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_8 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_8.setGeometry(QtCore.QRect(1120, 460, 81, 71))
+        self.pushButton_8.setGeometry(QtCore.QRect(1120, 400, 81, 71))
         self.pushButton_8.setMaximumSize(QtCore.QSize(261, 251))
         self.pushButton_8.setStyleSheet("background-image: url(:/line-graphic-81x71.png);\n"
                                         "\n"
@@ -487,11 +487,8 @@ class Ui_MainWindow(object):
         # QtWidgets.QShortcut()
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
-        self.actionSave_Fugure_as = QtWidgets.QAction(MainWindow)
-        self.actionSave_Fugure_as.setObjectName("actionSave_Fugure_as")
         self.menu.addAction(self.actionOpen)
         self.menu.addAction(self.actionSave)
-        self.menu.addAction(self.actionSave_Fugure_as)
         self.shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+O"), self.tab)
         self.shortcut.activated.connect(self.openFile)
         #########################################################
@@ -533,7 +530,6 @@ class Ui_MainWindow(object):
         # self.menuOption.setTitle(_translate("MainWindow", "Option"))
         self.actionOpen.setText(_translate("MainWindow", "Open      [Ctrl+O]"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
-        self.actionSave_Fugure_as.setText(_translate("MainWindow", "Save Fugure as...."))
         self.actionOpen.triggered.connect(self.openFile)
         self.actionSave.triggered.connect(self.save)
         self.pushButton_5.clicked.connect(lambda select: self.graph_type('Bar'))
@@ -549,21 +545,37 @@ class Ui_MainWindow(object):
 
     def save(self):
         self.datadimfile = '{}_datadim'.format(self.dr)
-        dimfile = open(self.datadimfile, 'w+')
-        dimsaved = []
+        self.dimfile = open(self.datadimfile, 'w+')
+        self.dimsaved = []
+        print((self.listWidget_2.count()))
         for i in range(self.listWidget_2.count()):
-            dimsaved.append(self.listWidget_2.item(i).text())
-            dimfile.write(self.listWidget_2.item(i).text()+'\n')
-        print(dimsaved)
+            self.dimsaved.append(self.listWidget_2.item(i).text())
+        for q in range(self.listWidget.count()):
+            self.dimsaved.append(self.listWidget.item(q).text())
+        self.write_dimrec()
+
+        print(self.dimsaved)
         print("Save!!!!!!!!")
 
         self.datameafile = '{}_datamea'.format(self.dr)
-        meafile = open(self.datameafile, 'w+')
-        measaved = []
+        self.meafile = open(self.datameafile, 'w+')
+        self.measaved = []
         for j in range(self.listWidget_3.count()):
-            measaved.append(self.listWidget_3.item(j).text())
-            meafile.write(self.listWidget_3.item(j).text() + '\n')
-        print(measaved)
+            self.measaved.append(self.listWidget_3.item(j).text())
+        for w in range(self.listWidget_4.count()):
+            self.measaved.append(self.listWidget_4.item(w).text())
+            # meafile.write(self.listWidget_3.item(j).text() + '\n')
+        print(self.measaved)
+        self.write_mearec()
+
+    def write_dimrec(self):
+        for i in self.dimsaved:
+            self.dimfile.write(i + '\n')
+
+    def write_mearec(self):
+        for j in self.measaved:
+            self.meafile.write(j + '\n')
+
 
     def addCombobox(self, who, items, option=None):
         # Add Combobox
@@ -1374,6 +1386,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    # atexit.register(ui.save)
+    atexit.register(ui.save)
     sys.exit(app.exec_())
 
