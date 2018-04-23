@@ -17,8 +17,8 @@ import hashlib
 import time
 from difflib import SequenceMatcher
 import resources
-# import atexit
-import os
+import atexit
+import random
 
 class ZoomPan:
     def __init__(self):
@@ -422,14 +422,14 @@ class Ui_MainWindow(object):
                                         "background-color: rgb(255, 255, 255);")
         self.pushButton_5.setText("")
         self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_6 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_6.setGeometry(QtCore.QRect(1120, 280, 81, 71))
-        self.pushButton_6.setMaximumSize(QtCore.QSize(261, 251))
-        self.pushButton_6.setStyleSheet("background-image: url(:/2.png);\n"
-                                        "\n"
-                                        "background-color: rgb(255, 255, 255);")
-        self.pushButton_6.setText("")
-        self.pushButton_6.setObjectName("pushButton_6")
+        # self.pushButton_6 = QtWidgets.QPushButton(self.tab)
+        # self.pushButton_6.setGeometry(QtCore.QRect(1120, 280, 81, 71))
+        # self.pushButton_6.setMaximumSize(QtCore.QSize(261, 251))
+        # self.pushButton_6.setStyleSheet("background-image: url(:/2.png);\n"
+        #                                 "\n"
+        #                                 "background-color: rgb(255, 255, 255);")
+        # self.pushButton_6.setText("")
+        # self.pushButton_6.setObjectName("pushButton_6")
         self.pushButton_7 = QtWidgets.QPushButton(self.tab)
         self.pushButton_7.setGeometry(QtCore.QRect(1120, 370, 81, 71))
         self.pushButton_7.setMaximumSize(QtCore.QSize(261, 251))
@@ -501,6 +501,12 @@ class Ui_MainWindow(object):
         self.filterSelected = []
         self.filter = {}
         self.combo_option = {}
+        self.graph_selected = ''
+        self.legend = None
+
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -530,7 +536,17 @@ class Ui_MainWindow(object):
         self.actionSave_Fugure_as.setText(_translate("MainWindow", "Save Fugure as...."))
         self.actionOpen.triggered.connect(self.openFile)
         self.actionSave.triggered.connect(self.save)
+        self.pushButton_5.clicked.connect(lambda select: self.graph_type('Bar'))
+        self.pushButton_7.clicked.connect(lambda select: self.graph_type('Line'))
+        self.pushButton_8.clicked.connect(lambda select: self.graph_type('Scatter'))
         # self.actionSave_Fugure_as.triggered.connect(self.sc.saveFigure)
+
+    def graph_type(self, type):
+        # Type : Bar, Line, Scatter
+        self.graph_selected = type
+        self.statusbar.showMessage("Graph: {}".format(self.graph_selected))
+        print(self.graph_selected)
+
     def save(self):
         self.datadimfile = '{}_datadim'.format(self.dr)
         dimfile = open(self.datadimfile, 'w+')
@@ -946,83 +962,95 @@ class Ui_MainWindow(object):
     def plot(self):
         # Plotting the graph
         try:
-            self.refresh()
-            myDim = self.dimSelected
-            myMeas = self.measSelected
-            myFilterSelected = self.filterSelected
-            myFilter = self.filter
-            myData = self.data[myDim + myMeas]
-            self.data3 = myData
-
-            print("From plot: (myFilterSelected)", myFilterSelected)
-            print("From plot: (myFilter)", myFilter)
-
-            print("Refresh PASS!")
-
-            # If filter has not been selected
-            count = 0
-            for item in myFilterSelected:
-                if myFilter[item] == []:
-                    count += 1
-            if count == len(myFilterSelected):
-                print("Nothing Selected!")
-                myData = myData.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
-                print(myData)
+            if self.graph_selected == '':
+                self.statusbar.showMessage("Please select Grapg type!")
             else:
-                # At least one selected
-                myData2 = myData
-                opCode = None
-                istime = False
-                time_temp = ''
+                self.refresh()
+                myDim = self.dimSelected
+                myMeas = self.measSelected
+                myFilterSelected = self.filterSelected
+                myFilter = self.filter
+                myData = self.data[myDim + myMeas]
+                self.data3 = myData
 
-                for i in range(len(myFilterSelected)):
-                    temp = []
-                    try:
-                        for j in range(len(myFilter[myFilterSelected[i]])):
-                            # Temp are items which selected by its own filter
-                            if myFilterSelected[i] in self.timedata:
-                                print(myFilter[myFilterSelected[i]], "TIMETEMPP")
-                                temp = myFilter[myFilterSelected[i]]
-                            else:
-                                temp.append(myFilter[myFilterSelected[i]][j])
-                        print("This is TEMP: ", temp)
-                        if myFilterSelected[i] in self.timedata:
-                            print("TIME selected")
-                            opCode = self.getOpcode(myFilterSelected[i], temp, istime=True)
-                            time_temp = opCode
-                            istime = True
-                        else:
-                            opCode = self.getOpcode(myFilterSelected[i], temp)
-                            myData2 = myData2[eval(opCode)]
-                        print(opCode)
+                print("From plot: (myFilterSelected)", myFilterSelected)
+                print("From plot: (myFilter)", myFilter)
 
-                    except:
-                        print("---Error occurred---")
-                        e = sys.exc_info()[0]
-                        e2 = sys.exc_info()[1]
-                        print(e, e2)
-                        print(sys.exc_info())
+                print("Refresh PASS!")
 
-                print("Pre DaTa2")
-                # print(myData2[(myData2['Order Date'] >= '2014-11-11') & (myData2['Order Date'] <= '2014-11-12')])
-                if istime:
-                    print("IS TIME")
-                    myData2 = myData2[eval(time_temp)]
-                    print(myData2)
-                    myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+                # If filter has not been selected
+                count = 0
+                for item in myFilterSelected:
+                    if myFilter[item] == []:
+                        count += 1
+                if count == len(myFilterSelected):
+                    print("Nothing Selected!")
+                    myData = myData.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+                    print(myData)
                 else:
-                    print('Mydata!!!!!!!!!!!!!!!!!!!', self.data3)
-                    myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+                    # At least one selected
+                    myData2 = myData
+                    opCode = None
+                    istime = False
+                    time_temp = ''
 
-            print("Going to plot!")
-            print(myData)
-            self.barChart(myData)
-            # self.sc.update_figure(myData)
-            # self.data3 = myData
-            self.updateTable()
-            # pltwid = pg.plot(title='new')
-            # pltwid.plot(myData)
-            print("Plot")
+                    for i in range(len(myFilterSelected)):
+                        temp = []
+                        try:
+                            for j in range(len(myFilter[myFilterSelected[i]])):
+                                # Temp are items which selected by its own filter
+                                if myFilterSelected[i] in self.timedata:
+                                    print(myFilter[myFilterSelected[i]], "TIMETEMPP")
+                                    temp = myFilter[myFilterSelected[i]]
+                                else:
+                                    temp.append(myFilter[myFilterSelected[i]][j])
+                            print("This is TEMP: ", temp)
+                            if myFilterSelected[i] in self.timedata:
+                                print("TIME selected")
+                                opCode = self.getOpcode(myFilterSelected[i], temp, istime=True)
+                                time_temp = opCode
+                                istime = True
+                            else:
+                                opCode = self.getOpcode(myFilterSelected[i], temp)
+                                myData2 = myData2[eval(opCode)]
+                            print(opCode)
+
+                        except:
+                            print("---Error occurred---")
+                            e = sys.exc_info()[0]
+                            e2 = sys.exc_info()[1]
+                            print(e, e2)
+                            print(sys.exc_info())
+
+                    print("Pre DaTa2")
+                    # print(myData2[(myData2['Order Date'] >= '2014-11-11') & (myData2['Order Date'] <= '2014-11-12')])
+                    if istime:
+                        print("IS TIME")
+                        myData2 = myData2[eval(time_temp)]
+                        print(myData2)
+                        myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+                    else:
+                        print('Mydata!!!!!!!!!!!!!!!!!!!', self.data3)
+                        myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
+
+                print("Going to plot!")
+                print(myData)
+
+                if self.graph_selected == 'Bar':
+                    self.bar2(myData)
+                    self.plotWidget.autoRange()
+                elif self.graph_selected == 'Line':
+                    self.lineChart(myData)
+                    self.plotWidget.autoRange()
+                elif self.graph_selected == 'Scatter':
+                    self.scatterChart(myData)
+                    self.plotWidget.autoRange()
+                # self.sc.update_figure(myData)
+                # self.data3 = myData
+                self.updateTable()
+                # pltwid = pg.plot(title='new')
+                # pltwid.plot(myData)
+                print("Plot")
         except:
             print("-----From OUTSIDE-----")
             print(sys.exc_info()[0], sys.exc_info()[1])
@@ -1127,6 +1155,7 @@ class Ui_MainWindow(object):
         self.plotWidget.clear()
         self.plotWidget.clearPlots()
         self.plotWidget.getAxis('bottom').setTicks([])
+        self.legend.scene().removeItem(self.legend)
 
         self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
         self.mesudata = self.data._get_numeric_data()
@@ -1153,6 +1182,138 @@ class Ui_MainWindow(object):
             combobox.addItems(combo_option[item])
             combobox.currentTextChanged.connect(self.on_combobox_changed)
             self.verticalLayout.addWidget(combobox)
+
+    def rand_color(self, n):
+        '''Random n distinct color'''
+        colors = []
+        r = int(random.random() * 256)
+        g = int(random.random() * 256)
+        b = int(random.random() * 256)
+        step = 256 / n
+        for i in range(n):
+            r += step
+            g += step
+            b += step
+            r = int(r) % 256
+            g = int(g) % 256
+            b = int(b) % 256
+            colors.append((r, g, b))
+        return colors
+
+    def lineChart2(self, df):
+        '''Plot line chart in chart tab.'''
+        # self.getState()
+        # if (len(self.workSheet[self.workSheet['currentWorkSheet']]['selectedRows']) >= 1 and len(self.workSheet[self.workSheet['currentWorkSheet']]['selectedColumns']) != 0):
+        # self.getCheckBoxesState(self.workSheet[self.workSheet['currentWorkSheet']]['currentSelectedFilter'])
+        # self.filterByColumns(self.workSheet[self.workSheet['currentWorkSheet']]['df'], self.workSheet[self.workSheet['currentWorkSheet']]['filteredColumns'])
+        # self.groupData(self.workSheet[self.workSheet['currentWorkSheet']]['filteredDF'], self.workSheet[self.workSheet['currentWorkSheet']]['selectedColumns'],
+        #                self.workSheet[self.workSheet['currentWorkSheet']]['selectedRows'])
+        dimensionsAxis = df.index.values
+        # self.plotTable(dimensionsAxis)
+        self.plotWidget.showGrid(x=False, y=False)
+        measurementAxis = self.measSelected
+        dimensionsAxis = df.index.values
+        dimensionsAxis = list(enumerate(dimensionsAxis))
+        self.plotWidget.clear()
+        self.plotWidget.clearPlots()
+        if self.legend != None:
+            self.legend.scene().removeItem(self.legend)
+        self.legend = self.plotWidget.addLegend()
+        colors = self.rand_color(len(measurementAxis))
+        for eachMeasurement, color in zip(measurementAxis, colors):
+            x = df.shape[0]
+            y = list(df[eachMeasurement])
+            self.plotWidget.plot(x=np.arange(x), y=y, pen=color, symbol='x', symbolPen=color, name=eachMeasurement)
+        self.plotWidget.getAxis('bottom').setTicks([dimensionsAxis])
+
+
+    def scatterChart(self, df):
+        '''Scatter chart in chart tab.'''
+        # self.getState()
+        # if (len(self.workSheet[self.workSheet['currentWorkSheet']]['selectedRows']) >= 1 and len(self.workSheet[self.workSheet['currentWorkSheet']]['selectedColumns']) != 0):
+        # self.getCheckBoxesState(self.workSheet[self.workSheet['currentWorkSheet']]['currentSelectedFilter'])
+        # self.filterByColumns(self.workSheet[self.workSheet['currentWorkSheet']]['df'], self.workSheet[self.workSheet['currentWorkSheet']]['filteredColumns'])
+        # self.groupData(self.workSheet[self.workSheet['currentWorkSheet']]['filteredDF'], self.workSheet[self.workSheet['currentWorkSheet']]['selectedColumns'], self.workSheet[self.workSheet['currentWorkSheet']]['selectedRows'])
+        # dimensionsAxis = self.workSheet[self.workSheet['currentWorkSheet']]['groupedDF'].index.values
+        # self.plotTable(dimensionsAxis)
+        self.plotWidget.showGrid(x=False, y=False)
+        measurementAxis = self.measSelected
+        dimensionsAxis = df.index.values
+        dimensionsAxis = list(enumerate(dimensionsAxis))
+        self.plotWidget.clear()
+        self.plotWidget.clearPlots()
+        if self.legend != None:
+            self.legend.scene().removeItem(self.legend)
+        self.legend = self.plotWidget.addLegend()
+        colors = self.rand_color(len(measurementAxis))
+        for eachMeasurement, color in zip(measurementAxis, colors):
+            x = df.shape[0]
+            y = df[eachMeasurement]
+            scatter = pg.ScatterPlotItem(size=10, pen=color, name=eachMeasurement)
+            scatter.addPoints(x=np.arange(x), y=y)
+            self.plotWidget.addItem(scatter)
+            self.plotWidget.plot(name=eachMeasurement, pen=color)
+        self.plotWidget.getAxis('bottom').setTicks([dimensionsAxis])
+
+    def lineChart(self, df):
+        '''Plot line chart in chart tab.'''
+        # self.getState()
+        # if (len(self.workSheet[self.workSheet['currentWorkSheet']]['selectedRows']) >= 1 and len(self.workSheet[self.workSheet['currentWorkSheet']]['selectedColumns']) != 0):
+        # self.getCheckBoxesState(self.workSheet[self.workSheet['currentWorkSheet']]['currentSelectedFilter'])
+        # self.filterByColumns(self.workSheet[self.workSheet['currentWorkSheet']]['df'], self.workSheet[self.workSheet['currentWorkSheet']]['filteredColumns'])
+        # self.groupData(self.workSheet[self.workSheet['currentWorkSheet']]['filteredDF'], self.workSheet[self.workSheet['currentWorkSheet']]['selectedColumns'],
+        #                self.workSheet[self.workSheet['currentWorkSheet']]['selectedRows'])
+        # dimensionsAxis = df.index.values
+        # self.plotTable(dimensionsAxis)
+        try:
+            self.plotWidget.showGrid(x=False, y=False)
+            measurementAxis = self.measSelected
+            dimensionsAxis = df.index.values
+            dimensionsAxis = list(enumerate(dimensionsAxis))
+            print(dimensionsAxis)
+            self.plotWidget.clear()
+            self.plotWidget.clearPlots()
+            if self.legend != None:
+                self.legend.scene().removeItem(self.legend)
+            self.legend = self.plotWidget.addLegend()
+            colors = self.rand_color(len(measurementAxis))
+            print("Going to loop")
+            for eachMeasurement, color in zip(measurementAxis, colors):
+                print(eachMeasurement)
+                x = df.shape[0]
+                y = list(df[eachMeasurement])
+                print(x)
+                print(y)
+                self.plotWidget.plot(x=np.arange(x), y=y, pen=color, symbol='x', symbolPen=color, name=eachMeasurement)
+                print("---Pass---")
+            print("=======Here=======")
+            self.plotWidget.getAxis('bottom').setTicks([dimensionsAxis])
+        except:
+            print("=======From Line Chart=======")
+            print(sys.exc_info()[0], sys.exc_info()[1])
+            print("=============================")
+
+
+    def bar2(self, df):
+        dimensionsAxis = df.index.values
+        # self.plotTable(dimensionsAxis)
+        self.plotWidget.showGrid(x=False, y=False)
+        measurementAxis = self.measSelected
+        dimensionsAxis = df.index.values
+        dimensionsAxis = list(enumerate(dimensionsAxis))
+        self.plotWidget.clear()
+        self.plotWidget.clearPlots()
+        colors = self.rand_color(len(measurementAxis))
+        if self.legend != None:
+            self.legend.scene().removeItem(self.legend)
+        self.legend = self.plotWidget.addLegend()
+        for eachMeasurement, color in zip(measurementAxis, colors):
+            x = df.shape[0]
+            y = df[eachMeasurement]
+            barChart = pg.BarGraphItem(x=np.arange(x), height=y, width=0.5, brush=color)
+            self.plotWidget.addItem(barChart)
+            self.plotWidget.plot(name=eachMeasurement, pen=color)
+        self.plotWidget.getAxis('bottom').setTicks([dimensionsAxis])
 
     def barChart(self, df):
         '''Plot bar chart in chart tab.'''
