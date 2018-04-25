@@ -1,0 +1,17 @@
+Airport: Code
+Airport: Name
+Origin State
+Origin State Code
+Country
+Aircraft: Type
+Collision Date and Time
+When: Time of day
+When: Phase of flight
+Effect: Amount of damage (detailed)
+Effect: Impact to flight
+Effect: Indicated Damage
+Wildlife: Animal Category
+Wildlife: Species Order
+Wildlife: Species Group
+Wildlife: Species
+Wildlife: Species ID
