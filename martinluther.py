@@ -36,7 +36,7 @@ class martinLuther:
         # for item in a:
         #     print(item)
 
-if __name__ == '__main__':
-    ml = martinLuther()
-    ml.readFile()
-    ml.wordCount(15)
+# if __name__ == '__main__':
+    # ml = martinLuther()
+    # ml.readFile()
+    # ml.wordCount(15)
