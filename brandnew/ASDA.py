@@ -19,6 +19,7 @@ from difflib import SequenceMatcher
 import resources
 import atexit
 import random
+import os
 
 class ZoomPan:
     def __init__(self):
@@ -392,9 +393,9 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.verticalLayout.setAlignment(QtCore.Qt.AlignTop)
-        self.pushButton_3 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_3.setGeometry(QtCore.QRect(880, 580, 75, 23))
-        self.pushButton_3.setObjectName("pushButton_3")
+        # self.pushButton_3 = QtWidgets.QPushButton(self.tab)
+        # self.pushButton_3.setGeometry(QtCore.QRect(880, 580, 75, 23))
+        # self.pushButton_3.setObjectName("pushButton_3")
         # self.pushButton_3.clicked.connect(self.getItem)
         # self.frame = QtWidgets.QFrame(self.verticalLayoutWidget)
         # self.frame.setStyleSheet("background-color: rgb(198, 255, 203);")
@@ -452,14 +453,14 @@ class Ui_MainWindow(object):
         self.pushButton_2.raise_()
         self.listWidget.raise_()
         self.listWidget_2.raise_()
-        self.listWidget_3.raise_()
+        # self.listWidget_3.raise_()
         self.listWidget_4.raise_()
         self.label.raise_()
         self.label_3.raise_()
         self.widget.raise_()
         self.label_2.raise_()
         self.verticalLayoutWidget.raise_()
-        self.pushButton_3.raise_()
+        # self.pushButton_3.raise_()
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -514,10 +515,10 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "PANXEL"))
         self.pushButton.setText(_translate("MainWindow", "Clear"))
         self.pushButton_2.setText(_translate("MainWindow", "OK"))
-        self.pushButton_3.setText(_translate("MainWindow", "Refresh"))
+
         self.pushButton_4.setText(_translate("MainWindow", "Cancel"))
         self.pushButton_4.clicked.connect(QtCore.QCoreApplication.instance().quit)
-        self.pushButton_3.clicked.connect(self.opClearLayout)
+        # self.pushButton_3.clicked.connect(self.opClearLayout)
         self.pushButton.clicked.connect(self.clearandclean)
         self.pushButton_2.clicked.connect(self.plot)
         self.label_4.setText(_translate("MainWindow", "      Dimensions"))
@@ -545,14 +546,18 @@ class Ui_MainWindow(object):
 
     def save(self):
         self.datadimfile = '{}_datadim'.format(self.dr)
-        self.dimfile = open(self.datadimfile, 'w+')
+        self.dimfile = open(self.datadimfile, 'w')
         self.dimsaved = []
         print((self.listWidget_2.count()))
         for i in range(self.listWidget_2.count()):
             self.dimsaved.append(self.listWidget_2.item(i).text())
         for q in range(self.listWidget.count()):
             self.dimsaved.append(self.listWidget.item(q).text())
-        self.write_dimrec()
+        for i in self.dimsaved:
+            print(i)
+            self.dimfile.write(i+ '\n')
+        self.dimfile.close()
+        # self.write_mearec()
 
         print(self.dimsaved)
         print("Save!!!!!!!!")
@@ -565,17 +570,22 @@ class Ui_MainWindow(object):
         for w in range(self.listWidget_4.count()):
             self.measaved.append(self.listWidget_4.item(w).text())
             # meafile.write(self.listWidget_3.item(j).text() + '\n')
+        for j in self.measaved:
+            self.meafile.write(j + '\n')
+        self.meafile.close()
+
         print(self.measaved)
-        self.write_mearec()
+
 
     def write_dimrec(self):
         for i in self.dimsaved:
-            self.dimfile.write(i + '\n')
+            self.dimfile.write(i)
+        self.dimfile.close()
 
     def write_mearec(self):
         for j in self.measaved:
             self.meafile.write(j + '\n')
-
+        self.meafile.close()
 
     def addCombobox(self, who, items, option=None):
         # Add Combobox
@@ -797,6 +807,13 @@ class Ui_MainWindow(object):
             meafile.write(j+"\n")
         meafile.close()
 
+    def write_datetime(self):
+        self.datatime = '{}_datetime'.format(self.dr)
+        timefile = open(self.datatime, 'w+')
+        for i in self.timedata:
+            timefile.write(i + '\n')
+        timefile.close()
+
     def checkmd5 (self):
         self.rdb = open(self.file_database, 'r')
         found = False
@@ -809,7 +826,7 @@ class Ui_MainWindow(object):
         return False
 
     def write_json(self):
-        self.datajson = self.data.reset_index().to_json(orient = 'records')
+        self.datajson = self.data.reset_index().to_json(orient = 'records', date_format = 'iso')
         print('12345678910')
         # print(self.datajson)
         self.dataJsonfile = '{}_Json.txt'.format(self.dr)
@@ -819,11 +836,12 @@ class Ui_MainWindow(object):
 
     def md5(self):
         # Write new md5
-        print("Yes md5")
-        self.file_database = "plogs.txt"
-        self.database = open(self.file_database, 'a')
-        self.hashmd5 = hashlib.md5(open(self.dr, 'rb').read()).hexdigest()
-        self.database.write(self.hashmd5 + " " + time.strftime("%H:%M:%S") + " " + time.strftime("%d/%m/%Y") + "\n")
+        if self.dr != '':
+            print("Yes md5")
+            self.file_database = "plogs.txt"
+            self.database = open(self.file_database, 'a')
+            self.hashmd5 = hashlib.md5(open(self.dr, 'rb').read()).hexdigest()
+            self.database.write(self.hashmd5 + " " + time.strftime("%H:%M:%S") + " " + time.strftime("%d/%m/%Y") + "\n")
 
     def checkEmpty(self):
         self.dataJsonfile = '{}_Json.txt'.format(self.dr)
@@ -844,63 +862,88 @@ class Ui_MainWindow(object):
         self.md5()
         if self.dr != '':
             if not self.checkmd5():
-                print('1st')
                 self.data_file = self.dr
                 self.data = pd.read_excel(self.data_file)
+                self.write_json()
+                self.database.close()
+                print(self.data)
                 self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
                 self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
+                print(self.dimdata.keys(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+
                 print('timedata', self.timedata)
+                self.write_datetime()
                 self.mesudata = self.data._get_numeric_data()
+                print(self.mesudata.keys(), "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBb")
+                # try:
+                #     self.write_json()
+                #     print('Newdeathnote')
+                # except:
+                #     e = sys.exc_info()[0]
+                #     e2 = sys.exc_info()[1]
+                #     print(e, e2, sys.exc_info())
+
+                print(type(self.data['Order Date']), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
                 print("Date Column is ", self.timedata)
                 if not list(self.timedata):
                     # If data have time column
                     # Convert those column to pandas datetime
                     for item in self.timedata:
-                        print(item)
+                        print('ddddddddddddddddddd', item)
                         self.data[item] = pd.to_datetime(self.data[item])
 
+                # self.dimdata = self.dimdata.keys()
+                # self.mesudata = self.mesudata.keys()
                 self.add_listwidget()
                 self.setTab2()
                 self.write_datadim()
                 print('Newdea')
                 self.write_datamea()
                 print('newdeathnote132222')
-                try:
-                    self.write_json()
-                    print('Newdeathnote')
-                except:
-                    e = sys.exc_info()[0]
-                    e2 = sys.exc_info()[1]
-                    print(e, e2, sys.exc_info())
+
 
             elif not self.checkEmpty():
                 print('2th')
                 self.dataJsonfile = '{}_Json.txt'.format(self.dr)
                 self.datadimfile = '{}_datadim'.format(self.dr)
                 self.datameafile = '{}_datamea'.format(self.dr)
-                self.readtable = open(self.dataJsonfile, 'r+')
+                self.datatime = '{}_datetime'.format(self.dr)
+                self.readjsondata = open(self.dataJsonfile, 'r+')
                 self.readdatadim = open(self.datadimfile, 'r+')
                 self.readdatamea = open(self.datameafile, 'r+')
+                self.readtime = open(self.datatime, 'r+')
                 rdimdata = self.readdatadim.readlines()
                 rmeadata = self.readdatamea.readlines()
+                rtimedata = self.readtime.readlines()
                 self.dimlist = [x.strip() for x in rdimdata]
                 self.mealist = [x.strip() for x in rmeadata]
+                self.timelist = [x.strip() for x in rtimedata]
                 print(self.dimlist)
                 print(self.mealist)
                 self.add_listwidget2()
-                self.readpd = pd.read_json(self.readtable, orient= 'records')
+                self.readpd = pd.read_json(self.readjsondata, orient= 'records', convert_dates= self.timelist)
                 print(type(self.readpd))
-                # print(self.readpd.head())
+                print(self.readpd.head())
                 self.data = self.readpd
+                # self.mesudata = self.mealist
+                # self.dimdata = self.dimlist
+                self.mesudata = self.data._get_numeric_data()
+                self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
+                # self.data = pd.read_excel(self.dr)
                 self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
                 print("Date Column is ", self.timedata)
+                print(type(self.data['Order Date']), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
                 if not list(self.timedata):
                     # If data have time column
                     # Convert those column to pandas datetime
                     for item in self.timedata:
                         print(item)
                         self.data[item] = pd.to_datetime(self.data[item])
+
+                print(self.data)
                 self.setTab2()
+                # self.database.close()
+
                 # self.add_listwidget2()
         else:
             pass
@@ -927,7 +970,7 @@ class Ui_MainWindow(object):
             print(i)
             item = QtWidgets.QListWidgetItem(i)
             self.listWidget_2.addItem(item)
-            print()
+            print(item)
             # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
         for j in self.mealist:
             item = QtWidgets.QListWidgetItem(j)
@@ -966,9 +1009,11 @@ class Ui_MainWindow(object):
             return opcode_time
         else:
             return opcode_cook
+
     def updateTable(self):
         print('updeated')
         self.updata = PandasModel(self.data3)
+        print(self.data3)
         self.tableView.setModel(self.updata)
 
     def plot(self):
@@ -983,7 +1028,7 @@ class Ui_MainWindow(object):
                 myFilterSelected = self.filterSelected
                 myFilter = self.filter
                 myData = self.data[myDim + myMeas]
-                self.data3 = myData
+
 
                 print("From plot: (myFilterSelected)", myFilterSelected)
                 print("From plot: (myFilter)", myFilter)
@@ -1001,7 +1046,7 @@ class Ui_MainWindow(object):
                     print(myData)
                 else:
                     # At least one selected
-                    myData2 = myData
+
                     opCode = None
                     istime = False
                     time_temp = ''
@@ -1046,10 +1091,16 @@ class Ui_MainWindow(object):
                         myData = myData2.pivot_table(index=myDim, values=myMeas, aggfunc=np.sum)
 
                 print("Going to plot!")
-                print(myData)
+                print(myData.reset_index())
+                print(myDim)
+                # mydata4 = myData.set_index(myDim, append=True).rename_axis([None, None, None]).squeeze().unstack()
+                # print(mydata4)
+                self.data3 = myData.reset_index()
+                myData2 = myData
 
                 if self.graph_selected == 'Bar':
                     self.bar2(myData)
+                    # self.plotWidget.setXRange(5, 20, padding=0)
                     self.plotWidget.autoRange()
                 elif self.graph_selected == 'Line':
                     self.lineChart(myData)
@@ -1057,6 +1108,7 @@ class Ui_MainWindow(object):
                 elif self.graph_selected == 'Scatter':
                     self.scatterChart(myData)
                     self.plotWidget.autoRange()
+
                 # self.sc.update_figure(myData)
                 # self.data3 = myData
                 self.updateTable()
@@ -1167,7 +1219,10 @@ class Ui_MainWindow(object):
         self.plotWidget.clear()
         self.plotWidget.clearPlots()
         self.plotWidget.getAxis('bottom').setTicks([])
-        self.legend.scene().removeItem(self.legend)
+        if self.legend == '':
+            pass
+        else:
+            self.legend.scene().removeItem(self.legend)
 
         self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
         self.mesudata = self.data._get_numeric_data()
@@ -1338,6 +1393,9 @@ class Ui_MainWindow(object):
             dimensionsAxis = df.index.values
             # self.plotTable(dimensionsAxis)
             self.plotWidget.showGrid(x=False, y=False)
+            self.plotWidget.enableAutoSIPrefix(enable=True)
+            self.plotWidget.setMouseEnabled(y = False, x = True)
+            self.plotWidget.generateDrawSpecs()
             measurementAxis = list(self.iterFlatten(df.values.astype(float).tolist()))
             dimensionsAxis = list(map(str, df.index.values))
             dimensionsAxis = list(enumerate(dimensionsAxis))
