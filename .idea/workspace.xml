@@ -4,12 +4,16 @@
     <bookmark url="file://$PROJECT_DIR$/megaf/fpxs.py" line="740" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="a2bedf53-0cd5-4bc7-9952-415ccebfa195" name="Default" comment="" />
+=======
     <list default="true" id="a2bedf53-0cd5-4bc7-9952-415ccebfa195" name="Default" comment="">
       <change type="MOVED" beforePath="$PROJECT_DIR$/brandnew/plogs.txt" afterPath="$PROJECT_DIR$/megaf/open html file.py" />
       <change type="MOVED" beforePath="$PROJECT_DIR$/megaf/global.xlsx" afterPath="$PROJECT_DIR$/brandnew/global.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brandnew/ASDA.py" afterPath="$PROJECT_DIR$/brandnew/ASDA.py" />
     </list>
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +29,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
+=======
+      <file leaf-file-name="pxs.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/superf/pxs.py">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="10302">
+              <caret line="613" column="8" lean-forward="false" selection-start-line="613" selection-start-column="8" selection-end-line="614" selection-end-column="73" />
+              <folding />
+=======
+            <state relative-caret-position="528">
+              <caret line="241" column="18" lean-forward="false" selection-start-line="241" selection-start-column="18" selection-end-line="241" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
       <file leaf-file-name="ASDA.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/brandnew/ASDA.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -33,15 +55,30 @@
               <folding>
                 <element signature="e#168#210#0" expanded="true" />
               </folding>
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="global.xlsx_Json.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/brandnew/global.xlsx_Json.txt">
           <provider selected="true" editor-type-id="LargeFileEditor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+      <file leaf-file-name="resources.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/brandnew/resources.py">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="3995">
+              <caret line="241" column="18" lean-forward="false" selection-start-line="241" selection-start-column="18" selection-end-line="241" selection-end-column="18" />
+=======
+            <state relative-caret-position="-27250">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
+              <folding />
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
             </state>
           </provider>
         </entry>
@@ -56,8 +93,23 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="global.xlsx_datadim" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/brandnew/global.xlsx_datadim">
+=======
+<<<<<<< HEAD
+      <file leaf-file-name="PandasModel.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/megaf/PandasModel.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="34" column="42" lean-forward="false" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
+=======
+      <file leaf-file-name="fpxs.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/megaf/fpxs.py">
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -76,6 +128,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="open html file.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Desktop/dasdasd/open html file.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -94,6 +147,14 @@
             <state relative-caret-position="272">
               <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
+=======
+      <file leaf-file-name="global.xlsx_Json.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/megaf/global.xlsx_Json.txt">
+          <provider selected="true" editor-type-id="LargeFileEditor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
             </state>
           </provider>
         </entry>
@@ -197,11 +258,24 @@
           <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
+=======
+      <pane id="Scope" />
+      <pane id="Scratches" />
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/New PANXEL/PANXEL/quize1.py" />
+=======
+<<<<<<< HEAD
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/f" />
+=======
+    <property name="last_opened_file_path" value="N:/f/gigaff" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -225,23 +299,112 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
+  <component name="RunManager" selected="Python.fpxs">
+    <configuration name="exel" type="PythonConfigurationType" factoryName="Python" temporary="true">
+=======
   <component name="RunManager" selected="Python.ASDA">
     <configuration name="ASDA" type="PythonConfigurationType" factoryName="Python" temporary="true">
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+<<<<<<< HEAD
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+=======
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/brandnew" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PANXEL" />
+<<<<<<< HEAD
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/exel.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="fpxs (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop/PANXEL/PANXEL/.idea/PANXEL/PANXEL/megaf" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PANXEL" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/PANXEL/PANXEL/.idea/PANXEL/PANXEL/megaf/fpxs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="fpxs" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/megaf" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PANXEL" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/megaf/fpxs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="pxs (2)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/superf" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PANXEL" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/superf/pxs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="pxs2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/megaf" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PANXEL" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/megaf/pxs2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+=======
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/brandnew/ASDA.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -390,7 +553,13 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
+<<<<<<< HEAD
     <configuration name="martinluther" type="PythonConfigurationType" factoryName="Python" temporary="true">
+=======
+<<<<<<< HEAD
+=======
+    <configuration name="fpxs (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -458,6 +627,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.ASDA" />
       <item index="1" class="java.lang.String" itemvalue="Python.martinluther" />
@@ -493,20 +663,43 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17473525" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+<<<<<<< HEAD
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16544656" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31968504" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17246597" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2631579" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.050680786" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+=======
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+=======
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -514,7 +707,13 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947367" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -553,6 +752,89 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/exel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="8" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/panxel.py" />
+    <entry file="file://$PROJECT_DIR$/tes2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$PROJECT_DIR$/tr.py" />
+    <entry file="file://$PROJECT_DIR$/panxel.py" />
+    <entry file="file://$PROJECT_DIR$/exel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="8" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+=======
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
+    <entry file="file://$PROJECT_DIR$/tes2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$PROJECT_DIR$/tr.py" />
+    <entry file="file://$PROJECT_DIR$/exel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/panxel.py" />
+    <entry file="file://$PROJECT_DIR$/tes2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$PROJECT_DIR$/tr.py" />
+    <entry file="file://$PROJECT_DIR$/exel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$PROJECT_DIR$/tr.py" />
+    <entry file="file://$PROJECT_DIR$/exel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/px.py" />
+    <entry file="file://$PROJECT_DIR$/appjar.py" />
+    <entry file="file://$PROJECT_DIR$/panxel.py" />
+    <entry file="file://$PROJECT_DIR$/outp2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1870">
+          <caret line="110" column="40" lean-forward="false" selection-start-line="110" selection-start-column="40" selection-end-line="110" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
     <entry file="file://$PROJECT_DIR$/tr.py" />
     <entry file="file://$PROJECT_DIR$/tes2.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -609,6 +891,18 @@
     <entry file="file://$PROJECT_DIR$/exel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="466">
+<<<<<<< HEAD
+          <caret line="39" column="12" lean-forward="true" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/New PANXEL/PANXEL/neweiei2.py" />
+    <entry file="file://$PROJECT_DIR$/megaf/pxs2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10302">
+          <caret line="613" column="8" lean-forward="false" selection-start-line="613" selection-start-column="8" selection-end-line="614" selection-end-column="73" />
+          <folding />
+=======
           <caret line="39" column="12" lean-forward="false" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
         </state>
       </provider>
@@ -625,13 +919,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/megaf/supertest.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="3995">
+          <caret line="241" column="18" lean-forward="false" selection-start-line="241" selection-start-column="18" selection-end-line="241" selection-end-column="18" />
+          <folding />
+=======
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
         </state>
       </provider>
     </entry>
@@ -648,6 +949,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
+=======
         </state>
       </provider>
     </entry>
@@ -662,13 +965,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/PyQt5/QtCore.pyd" />
+    <entry file="file://$USER_HOME$/Desktop/New PANXEL/PANXEL/pxs.py" />
     <entry file="file://$PROJECT_DIR$/megaf/PandasModel.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="544">
+          <caret line="34" column="42" lean-forward="false" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+=======
         <state relative-caret-position="240">
           <caret line="17" column="40" lean-forward="false" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
         </state>
       </provider>
     </entry>
@@ -681,6 +995,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
+=======
         </state>
       </provider>
     </entry>
@@ -704,9 +1020,11 @@
         <state relative-caret-position="1232">
           <caret line="88" column="23" lean-forward="false" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
           <folding />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Desktop/PANXEL/PANXEL/.idea/PANXEL/PANXEL/megaf/fpxs.py" />
     <entry file="file://$PROJECT_DIR$/megaf/global.xlsx_Json.txt">
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state relative-caret-position="0">
@@ -748,14 +1066,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/superf/pxs.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="0">
+=======
+<<<<<<< HEAD
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+        <state relative-caret-position="528">
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
           <caret line="241" column="18" lean-forward="false" selection-start-line="241" selection-start-column="18" selection-end-line="241" selection-end-column="18" />
           <folding />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/megaf/open html file.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="236">
           <caret line="31" column="20" lean-forward="true" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
           <folding>
@@ -768,7 +1096,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+<<<<<<< HEAD
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+        <state relative-caret-position="176">
+          <caret line="13" column="46" lean-forward="false" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
+>>>>>>> e162d0f81c3a4bb95c19f5a352ac5c8e0bb64a0a
           <folding />
+>>>>>>> 671b7f694a321ba8db51354186cf5a3ddb278af1
         </state>
       </provider>
     </entry>
@@ -776,7 +1113,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
