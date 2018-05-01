@@ -320,6 +320,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(1269, 690)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        MainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -378,8 +379,12 @@ class Ui_MainWindow(object):
         # l.addWidget(self.toolbar)
         # l.addWidget(self.sc)
 
+
+        ##########
+        # Plot
         self.plotWidget = pg.PlotWidget(name="Plot1")
         l.addWidget(self.plotWidget)
+        ##########
 
         self.listWidget_5 = QtWidgets.QHBoxLayout(self.tab)
         self.listWidget_5.setGeometry(QtCore.QRect(590, 20, 171, 111))
@@ -394,9 +399,9 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.verticalLayout.setAlignment(QtCore.Qt.AlignTop)
-        # self.pushButton_3 = QtWidgets.QPushButton(self.tab)
-        # self.pushButton_3.setGeometry(QtCore.QRect(880, 580, 75, 23))
-        # self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_3.setGeometry(QtCore.QRect(880, 580, 75, 23))
+        self.pushButton_3.setObjectName("pushButton_3")
         # self.pushButton_3.clicked.connect(self.getItem)
         # self.frame = QtWidgets.QFrame(self.verticalLayoutWidget)
         # self.frame.setStyleSheet("background-color: rgb(198, 255, 203);")
@@ -516,10 +521,10 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "PANXEL"))
         self.pushButton.setText(_translate("MainWindow", "Clear"))
         self.pushButton_2.setText(_translate("MainWindow", "OK"))
-
+        self.pushButton_3.setText(_translate("MainWindow", "Refresh"))
         self.pushButton_4.setText(_translate("MainWindow", "Cancel"))
         self.pushButton_4.clicked.connect(QtCore.QCoreApplication.instance().quit)
-        # self.pushButton_3.clicked.connect(self.opClearLayout)
+        self.pushButton_3.clicked.connect(self.get_range)
         self.pushButton.clicked.connect(self.clearandclean)
         self.pushButton_2.clicked.connect(self.plot)
         self.label_4.setText(_translate("MainWindow", "      Dimensions"))
@@ -580,13 +585,12 @@ class Ui_MainWindow(object):
 
     def write_dimrec(self):
         for i in self.dimsaved:
-            self.dimfile.write(i)
-        self.dimfile.close()
+            self.dimfile.write(i + '\n')
 
     def write_mearec(self):
         for j in self.measaved:
             self.meafile.write(j + '\n')
-        self.meafile.close()
+
 
     def addCombobox(self, who, items, option=None):
         # Add Combobox
@@ -613,8 +617,11 @@ class Ui_MainWindow(object):
                             dateStop.setCalendarPopup(True)
                             dateStart.setObjectName("datepicker_start>{}".format(item))
                             dateStop.setObjectName("datepicker_stop>{}".format(item))
+                            dateType = QtWidgets.QComboBox()
+                            dateType.addItems(['Daily', 'Monthly', 'Yearly'])
                             self.verticalLayout.addWidget(dateStart)
                             self.verticalLayout.addWidget(dateStop)
+                            self.verticalLayout.addWidget(dateType)
                         else:
                             combobox = CheckComboBox()
                             combobox.setObjectName("combobox>{}".format(item))
@@ -634,8 +641,11 @@ class Ui_MainWindow(object):
                             dateStop.setCalendarPopup(True)
                             dateStart.setObjectName("datepicker_start>{}".format(item))
                             dateStop.setObjectName("datepicker_stop>{}".format(item))
+                            dateType = QtWidgets.QComboBox()
+                            dateType.addItems(['Daily', 'Monthly', 'Yearly'])
                             self.verticalLayout.addWidget(dateStart)
                             self.verticalLayout.addWidget(dateStop)
+                            self.verticalLayout.addWidget(dateType)
                         else:
                             combobox = CheckComboBox()
                             combobox.setObjectName("combobox>{}".format(item))
@@ -662,8 +672,11 @@ class Ui_MainWindow(object):
                         dateStop.setCalendarPopup(True)
                         dateStart.setObjectName("datepicker_start>{}".format(item))
                         dateStop.setObjectName("datepicker_stop>{}".format(item))
+                        dateType = QtWidgets.QComboBox()
+                        dateType.addItems(['Daily', 'Monthly', 'Yearly'])
                         self.verticalLayout.addWidget(dateStart)
                         self.verticalLayout.addWidget(dateStop)
+                        self.verticalLayout.addWidget(dateType)
                     else:
                         try:
                             print(type(item), "!From else!")
@@ -740,8 +753,11 @@ class Ui_MainWindow(object):
                 dateStop.setCalendarPopup(True)
                 dateStart.setObjectName("datepicker_start>{}".format(item))
                 dateStop.setObjectName("datepicker_stop>{}".format(item))
+                dateType = QtWidgets.QComboBox()
+                dateType.addItems(['Daily', 'Monthly', 'Yearly'])
                 self.verticalLayout.addWidget(dateStart)
                 self.verticalLayout.addWidget(dateStop)
+                self.verticalLayout.addWidget(dateType)
             else:
                 combobox = CheckComboBox()
                 combobox.setObjectName("combobox>{}".format(item))
@@ -833,6 +849,7 @@ class Ui_MainWindow(object):
         self.dataJsonfile = '{}_Json.txt'.format(self.dr)
         jsonfile = open(self.dataJsonfile, 'w+')
         jsonfile.write(self.datajson)
+        jsonfile.close()
 
     def md5(self):
         # Write new md5
@@ -842,13 +859,39 @@ class Ui_MainWindow(object):
             self.database = open(self.file_database, 'a')
             self.hashmd5 = hashlib.md5(open(self.dr, 'rb').read()).hexdigest()
             self.database.write(self.hashmd5 + " " + time.strftime("%H:%M:%S") + " " + time.strftime("%d/%m/%Y") + "\n")
+            print('Newdeathnot13')
+            # self.database.close()
 
     def checkEmpty(self):
         self.dataJsonfile = '{}_Json.txt'.format(self.dr)
         self.readJson = open(self.dataJsonfile, 'r+')
         return os.stat(self.dataJsonfile).st_size == 0
 
+    def checkExist(self):
+        self.dataJsonfile = '{}_Json.txt'.format(self.dr)
+        print(os.path.isfile(self.dataJsonfile))
+        print("Newdeaasdasdasdwdasdwdasdasdawdawdasdwdsdwdasdwdasdwdasd")
+        return os.path.exists(self.dataJsonfile)
 
+    def clearListWidget(self):
+        if self.listWidget_2.count() != 0:
+            print(self.listWidget_2.count())
+            self.filterSelected = []
+            self.filter = {}
+            self.dimSelected = []
+            self.measSelected = []
+            self.clearLayout()
+            self.listWidget.clear()
+            self.listWidget_2.clear()
+            self.listWidget_3.clear()
+            self.listWidget_4.clear()
+            self.plotWidget.clear()
+            self.plotWidget.clearPlots()
+            if self.legend == '':
+                pass
+            else:
+                self.legend.scene().removeItem(self.legend)
+            # self.tabWidget.clear()
 
     def openFile(self):
         self.dr = str(QtWidgets.QFileDialog.getOpenFileName()[0])
@@ -862,38 +905,34 @@ class Ui_MainWindow(object):
         self.md5()
         if self.dr != '':
             if not self.checkmd5():
+                self.clearListWidget()
+                print('1st')
                 self.data_file = self.dr
+                print("new")
                 self.data = pd.read_excel(self.data_file)
-                self.write_json()
+                print("new")
+                try:
+                    self.write_json()
+                    print('Newdeathnote')
+                except:
+                    e = sys.exc_info()[0]
+                    e2 = sys.exc_info()[1]
+                    print(e, e2, sys.exc_info())
                 self.database.close()
                 print(self.data)
                 self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
                 self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
-                print(self.dimdata.keys(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-
                 print('timedata', self.timedata)
                 self.write_datetime()
                 self.mesudata = self.data._get_numeric_data()
-                print(self.mesudata.keys(), "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBb")
-                # try:
-                #     self.write_json()
-                #     print('Newdeathnote')
-                # except:
-                #     e = sys.exc_info()[0]
-                #     e2 = sys.exc_info()[1]
-                #     print(e, e2, sys.exc_info())
-
-                print(type(self.data['Order Date']), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
                 print("Date Column is ", self.timedata)
                 if not list(self.timedata):
                     # If data have time column
                     # Convert those column to pandas datetime
                     for item in self.timedata:
-                        print('ddddddddddddddddddd', item)
+                        print(item)
                         self.data[item] = pd.to_datetime(self.data[item])
 
-                # self.dimdata = self.dimdata.keys()
-                # self.mesudata = self.mesudata.keys()
                 self.add_listwidget()
                 self.setTab2()
                 self.write_datadim()
@@ -902,8 +941,9 @@ class Ui_MainWindow(object):
                 print('newdeathnote132222')
 
 
-            elif not self.checkEmpty():
+            elif self.checkExist():
                 print('2th')
+                self.clearListWidget()
                 self.dataJsonfile = '{}_Json.txt'.format(self.dr)
                 self.datadimfile = '{}_datadim'.format(self.dr)
                 self.datameafile = '{}_datamea'.format(self.dr)
@@ -923,7 +963,7 @@ class Ui_MainWindow(object):
                 self.add_listwidget2()
                 self.readpd = pd.read_json(self.readjsondata, orient= 'records', convert_dates= self.timelist)
                 print(type(self.readpd))
-                print(self.readpd.head())
+                # print(self.readpd.head())
                 self.data = self.readpd
                 # self.mesudata = self.mealist
                 # self.dimdata = self.dimlist
@@ -932,7 +972,36 @@ class Ui_MainWindow(object):
                 # self.data = pd.read_excel(self.dr)
                 self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
                 print("Date Column is ", self.timedata)
-                print(type(self.data['Order Date']), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+                if not list(self.timedata):
+                    # If data have time column
+                    # Convert those column to pandas datetime
+                    for item in self.timedata:
+                        print(item)
+                        self.data[item] = pd.to_datetime(self.data[item])
+                self.setTab2()
+                # self.add_listwidget2()
+            else:
+                self.clearListWidget()
+                print('1st')
+                self.data_file = self.dr
+                print("new")
+                self.data = pd.read_excel(self.data_file)
+                print("new")
+                try:
+                    self.write_json()
+                    print('Newdeathnote')
+                except:
+                    e = sys.exc_info()[0]
+                    e2 = sys.exc_info()[1]
+                    print(e, e2, sys.exc_info())
+                self.database.close()
+                print(self.data)
+                self.dimdata = self.data.select_dtypes(include=['object', np.datetime64])
+                self.timedata = self.data.select_dtypes(include=[np.datetime64]).keys()
+                print('timedata', self.timedata)
+                self.write_datetime()
+                self.mesudata = self.data._get_numeric_data()
+                print("Date Column is ", self.timedata)
                 if not list(self.timedata):
                     # If data have time column
                     # Convert those column to pandas datetime
@@ -940,11 +1009,13 @@ class Ui_MainWindow(object):
                         print(item)
                         self.data[item] = pd.to_datetime(self.data[item])
 
-                print(self.data)
+                self.add_listwidget()
                 self.setTab2()
-                # self.database.close()
+                self.write_datadim()
+                print('Newdea')
+                self.write_datamea()
+                print('newdeathnote132222')
 
-                # self.add_listwidget2()
         else:
             pass
 
@@ -970,7 +1041,7 @@ class Ui_MainWindow(object):
             print(i)
             item = QtWidgets.QListWidgetItem(i)
             self.listWidget_2.addItem(item)
-            print(item)
+            print()
             # print(QtCore.QCoreApplication.processEvents(pd.read_excel(data_file)))
         for j in self.mealist:
             item = QtWidgets.QListWidgetItem(j)
@@ -989,8 +1060,8 @@ class Ui_MainWindow(object):
         opcode_time = ''
         if istime:
             # If data set is time-order
-            temp_start = time.strptime(temp[0], '%d/%m/%Y')
-            temp_stop = time.strptime(temp[1], '%d/%m/%Y')
+            temp_start = time.strptime(self.thaitoarab(temp[0]), '%d/%m/%Y')
+            temp_stop = time.strptime(self.thaitoarab(temp[1]), '%d/%m/%Y')
             # print(time.strftime('%Y-%m-%d', tes))
             temp_start = time.strftime('%Y-%m-%d', temp_start)
             temp_stop = time.strftime('%Y-%m-%d', temp_stop)
@@ -1009,11 +1080,9 @@ class Ui_MainWindow(object):
             return opcode_time
         else:
             return opcode_cook
-
     def updateTable(self):
         print('updeated')
         self.updata = PandasModel(self.data3)
-        print(self.data3)
         self.tableView.setModel(self.updata)
 
     def plot(self):
@@ -1046,7 +1115,7 @@ class Ui_MainWindow(object):
                     print(myData)
                 else:
                     # At least one selected
-
+                    myData2 = myData
                     opCode = None
                     istime = False
                     time_temp = ''
@@ -1100,15 +1169,13 @@ class Ui_MainWindow(object):
 
                 if self.graph_selected == 'Bar':
                     self.bar2(myData)
-                    # self.plotWidget.setXRange(5, 20, padding=0)
-                    self.plotWidget.autoRange()
+                    # self.plotWidget.autoRange()
                 elif self.graph_selected == 'Line':
                     self.lineChart(myData)
                     self.plotWidget.autoRange()
                 elif self.graph_selected == 'Scatter':
                     self.scatterChart(myData)
                     self.plotWidget.autoRange()
-
                 # self.sc.update_figure(myData)
                 # self.data3 = myData
                 self.updateTable()
@@ -1214,7 +1281,7 @@ class Ui_MainWindow(object):
         self.listWidget_4.clear()
 
         self.setTab2()
-        # self.sc.axes.cla()
+        # self.sc.axes.cla()0
         # self.sc.draw()
         self.plotWidget.clear()
         self.plotWidget.clearPlots()
@@ -1362,6 +1429,7 @@ class Ui_MainWindow(object):
 
 
     def bar2(self, df):
+        print("=======Bar Chart=======")
         dimensionsAxis = df.index.values
         # self.plotTable(dimensionsAxis)
         self.plotWidget.showGrid(x=False, y=False)
@@ -1374,13 +1442,43 @@ class Ui_MainWindow(object):
         if self.legend != None:
             self.legend.scene().removeItem(self.legend)
         self.legend = self.plotWidget.addLegend()
+        y_Min = 0
+        y_Max = 0
         for eachMeasurement, color in zip(measurementAxis, colors):
             x = df.shape[0]
             y = df[eachMeasurement]
+            ymax = np.max(y)
+            ymin = np.min(y)
+            if ymax > y_Max:
+                y_Max = ymax
+            if ymin < y_Min:
+                y_Min = ymin
+            print("Y max: ", y_Max)
+            print("Y min: ", y_Min)
             barChart = pg.BarGraphItem(x=np.arange(x), height=y, width=0.5, brush=color)
             self.plotWidget.addItem(barChart)
             self.plotWidget.plot(name=eachMeasurement, pen=color)
+        # try:
+        # self.plotWidget.setLimits(minRange=[0.1, No//ne], MaxRange=[y_Min, y_Max])
+        self.plotWidget.setLimits(yMin=y_Min, yMax=y_Max, xMin=0, xMax=df.shape[0])
+        # self.plotWidget.enableAutoRange(axis='y')
+        self.plotWidget.setMouseEnabled(x=True, y=False)
+        self.plotWidget.setXRange(0, 10)
+        # self.plotWidget.setXRange(0, 2)
+        # self.plotWidget.disableAutoRange()
+        # self.plotWidget.setYS(0, 5)
+
+        # self.plotWidget.setAspectLocked(True)
+        # self.plotWidget.setAutoPan(x=0)
+    # except:
+        # self.plotWidget.setRange(lockAspect=False)
         self.plotWidget.getAxis('bottom').setTicks([dimensionsAxis])
+        # self.plotWidget.getAxis('bottom').setTickSpacing(5, 1)
+
+    def get_range(self):
+        print(self.plotWidget.viewRange())
+        print(self.plotWidget.viewRect())
+        # print(self.plotWidget.viewRangeChanged())
 
     def barChart(self, df):
         '''Plot bar chart in chart tab.'''
@@ -1393,9 +1491,6 @@ class Ui_MainWindow(object):
             dimensionsAxis = df.index.values
             # self.plotTable(dimensionsAxis)
             self.plotWidget.showGrid(x=False, y=False)
-            self.plotWidget.enableAutoSIPrefix(enable=True)
-            self.plotWidget.setMouseEnabled(y = False, x = True)
-            self.plotWidget.generateDrawSpecs()
             measurementAxis = list(self.iterFlatten(df.values.astype(float).tolist()))
             dimensionsAxis = list(map(str, df.index.values))
             dimensionsAxis = list(enumerate(dimensionsAxis))
@@ -1446,4 +1541,3 @@ if __name__ == "__main__":
     MainWindow.show()
     atexit.register(ui.save)
     sys.exit(app.exec_())
-

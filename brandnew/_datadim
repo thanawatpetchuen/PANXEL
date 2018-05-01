@@ -1,17 +1,17 @@
 Order ID
 Order Date
+Ship Date
 Ship Mode
 Customer ID
 Customer Name
 Segment
-City
 State
+Country
 Region
+Market
 Product ID
 Category
 Sub-Category
 Product Name
 Order Priority
-Country
-Market
-Ship Date
+City
